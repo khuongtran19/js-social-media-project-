@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cars</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .car {
+            padding: 20px;
+            margin: 20px;
+            border: solid black 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+    <script src="./script/sabio.services.cars.js"></script>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6" id="shippingFormContainer">
+                <input type="text" id="searchText" placeholder="Search By Name">
+                <button type="button" id="searchBtn">Search</button>
+                <input type="checkbox" id="sortByYear">Sort by Year</input>
+                <select id="makeSelect">
+                    <option value="" selected>Select Make By</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="Kia">Kia</option>
+                    <option value="Mazda">Mazda</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Volvo">Volve</option>
+                    <option value="Dodge">Dodge</option>
+                </select>
+                <select id="modelSelect">
+                    <option value="" selected>Select Model</option>
+                    <option value="Camri">Camri</option>
+                    <option value="CRV">CRV</option>
+                    <option value="wrx">wrx</option>
+                    <option value="CX5">CX5</option>
+                    <option value="Optima">Optima</option>
+                    <option value="Sorento">Sorento</option>
+                    <option value="Forte">Forte</option>
+                    <option value="Focus">Focus</option>
+                    <option value="Stratus">Stratus</option>
+                    <option value="Accord">Accord</option>
+                    <option value="Prius">Prius</option>
+                    <option value="Civic">Civic</option>
+                    <option value="S90">S90</option>
+                </select>
+                <button type="button" id="btnselect">Select</button>
+                <h1>Car Information</h1>
+                <div class="row">
+                    <form class="col-md-4" id="carForm">
+                        <p>
+                            Model
+                        </p>
+                        <input type="text" placeholder="Model" id="model" name="Model" />
+                        <p>
+                            Make
+                        </p>
+                        <input type="text" placeholder="Make" id="make" name="Make" />
+                        <p>
+                            Year
+                        </p>
+                        <input type="number" placeholder="Year" id="year" name="Year" />
+                        <input type="button" value="Submit" id="btnSubmit" />
+                        <br />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="landing"></div>
+    </div>
+    <script>
+        sabio.page.startUp = function () {
+            sabio.services.getCars(sabio.page.onGetCarsSuccess, sabio.page.onError);
+            $('#btnSubmit').on('click', sabio.page.handlers.submitForm);
+            $('#landing').on('click', '.delete', sabio.page.handlers.deleteCar);
+            $('#landing').on('click', '.edit', sabio.page.handlers.getCarById);
+            $('#searchBtn').on('click', sabio.page.handlers.searchByName);
+            $('#sortByYear').on('click', sabio.page.handlers.sortByYear);
+            $('#btnselect').on('click', sabio.page.handlers.selectMake);
+            sabio.page.validation();
+        }
+
+        /* -----------------------HANDLERS---------------------------------- */
+        sabio.page.handlers.sortByYear = () => {
+            sabio.page.carsArray.sort((a, b) => {
+                if (a.year > b.year) return 1;
+                if (a.year < b.year) return -1;
+                return 0;
+            })
+            $('#landing').empty();
+            sabio.page.listCars(sabio.page.carsArray);
+        }
+        sabio.page.handlers.selectMake = () => {
+            let searchMake = $("#makeSelect :selected").val();
+            let array = [];
+            if (sabio.page.carsArray) {
+                array = sabio.page.carsArray.filter(car => car.make.toLowerCase() === searchMake.toLowerCase());
+                $('#landing').empty();
+                sabio.page.listCars(array);
+            }
+        }
+        sabio.page.handlers.selectModel = () => {
+            let searchModel = $("#modelSelect :selected").val();
+            let array = [];
+            if (sabio.page.carsArray) {
+                array = sabio.page.carsArray.filter(car => car.model.toLowerCase() === searchModel.toLowerCase());
+                $('#landing').empty();
+                sabio.page.listCars(array);
+            }
+        }
+        sabio.page.handlers.searchByName = function () {
+            let searchQuery = $('#searchText').val();
+            let filteredArray = [];
+            if (sabio.page.carsArray) {
+                filteredArray = sabio.page.carsArray.filter(car => car.firstName.toLowerCase() === searchQuery.toLowerCase());
+                $('#landing').empty();
+                sabio.page.listCars(filteredArray);
+            }
+        }
+
+        sabio.page.handlers.submitForm = function () {
+            var car = sabio.page.readFormData();
+            if ($('#carForm').valid()) {
+                if (sabio.page.currentID) {
+                    car.id = sabio.page.currentID;
+                    sabio.services.updateCar(car, sabio.page.onUpdateCarSuccess, sabio.page.onError);
+                } else {
+                    sabio.services.addCar(car, sabio.page.onAddCarSuccess, sabio.page.onError);
+                }
+
+            }
+        }
+        sabio.page.handlers.deleteCar = function () {
+            sabio.page.currentID = $(this).closest('.car').prop('id');
+            sabio.services.deleteCar(sabio.page.currentID, sabio.page.onDeleteCarSuccess, sabio.page.onError);
+            // $(this).closest('.author').remove();  can't use this syntax placement here because it will delete no matter if its successful or not
+        }
+        sabio.page.handlers.getCarById = function () {
+            sabio.page.currentID = $(this).closest('.car').prop('id');
+            sabio.services.getCarById(sabio.page.currentID, sabio.page.onGetCarByIdSuccess, sabio.page.onError);
+        }
+
+        /* -----------------------CALLBACK FUNCTION---------------------------------- */
+        sabio.page.onGetCarMake = (data, textStatus, XHR) => {
+            console.log("getAll", data);
+            sabio.page.carsArray = date.items;
+            sabio.page.listCars(data.items);
+        }
+        sabio.page.onGetCarsSuccess = function (data, textStatus, XHR) {
+            console.log("getAll", data);
+            sabio.page.carsArray = data.items;
+            sabio.page.listCars(data.items);
+        }
+        sabio.page.onAddCarSuccess = function (data) {
+            console.log('post', data);
+            $('#carForm')[0].reset();
+            $('.landing').empty();  //  empties the div so you can refresh the data
+            sabio.services.getCars(sabio.page.onGetCarsSuccess, sabio.page.onError)
+            sabio.page.currentID = null;
+        }
+        sabio.page.onGetCarByIdSuccess = function (data) {
+            console.log('getByID', data);
+            $('#model').val(data.item.model);
+            $('#make').val(data.item.make);
+            $('#year').val(data.item.year);
+        }
+        sabio.page.onError = function (XHR, textStatus, error) {
+            console.log(XHR);
+        }
+        sabio.page.onUpdateCarSuccess = function (data) {
+            console.log('onUpdate', data);
+            $('#carForm')[0].reset();
+            $('#landing').empty();
+            sabio.services.getCars(sabio.page.onGetCarsSuccess, sabio.page.onError)
+            sabio.page.currentID = null;
+        }
+        sabio.page.onDeleteCarSuccess = function (data) {
+            console.log('delete', data);
+            $('#' + sabio.page.currentID).remove();  //  this is the correct syntax placement because its now targeting the currentID even though its under a different function
+            sabio.page.currentID = null;
+        }
+
+        /* -----------------------MISC FUNCTIONS---------------------------------- */
+        sabio.page.readFormData = function () {
+            return {
+                model: $('#model').val(),
+                make: $('#make').val(),
+                year: $('#year').val()
+            };
+        }
+
+        sabio.page.listCars = (list) => {
+            for (let index = 0; index < list.length; index++) {
+                var template = $($('#template').html());
+                template.find('.model').text(list[index].model);
+                template.find('.make').text(list[index].make);
+                template.find('.year').text(list[index].year);
+                template.prop('id', list[index].id);
+                $('#landing').append(template);
+            }
+        }
+
+        sabio.page.validation = () => {
+            const rules = {
+                'Model': {
+                    required: true
+                },
+                'Make': {
+                    required: true
+                },
+                'Year': {
+                    required: true,
+                    range: [1000, 2020]
+                },
+            };
+            const messages = {
+                'Model': {
+                    required: 'Please type in model'
+                },
+                'Make': {
+                    required: 'Please type in a make'
+                },
+                'Year': {
+                    required: 'Please type in your year',
+                    range: 'Year must be between 1990-2019'
+                }
+            };
+            const options = {
+                rules: rules,
+                messages: messages
+            };
+            $('#carForm').validate(options);
+        }
+
+    </script>
+
+    <script type="text/html" id="template">
+    <div class="car col-md-10">
+        <p class="model"></p>
+        <p class="make"></p>
+        <p class="year"></p>
+        <button class="btn-primary edit">Edit</button>
+        <button class="btn-danger delete">Delete</button>
+    </div>
+</script>
+
+</body>
+
+</html>

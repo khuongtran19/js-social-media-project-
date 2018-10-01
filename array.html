@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Array Intro</title>
+</head>
+
+<body>
+    <script>
+        var fruits = ["apple", "orange", "grape", "mango"];
+        console.log(fruits[1]);
+        var idx = 2;
+        console.log(fruits[idx]);
+        console.log(fruits);
+        var vegetables = [];
+        console.log(fruits.length);
+        console.log(vegetables.length);
+        vegetables.push("carrot");
+        vegetables.push("onion");
+        vegetables.push("potato");
+        console.log(vegetables);
+        console.log(fruits)
+        fruits.pop();
+        console.log(fruits);
+        fruits.shift();
+        console.log(fruits);
+        var food = fruits.concat(vegetables);
+        console.log(food);
+        var myfood = food.join();
+        console.log(myfood);
+        var number = "10,20,30,40,50";
+        var score = number.split(",");
+        console.log(score);
+        fruits.splice(1, 3, "banana", "pears"); //(where to start, number replace or remove, the rest is what to add or remove)
+        console.log(fruits);
+        ///LOOP
+        for (var i = 1; i <= 10; i++) {
+            console.log("hello world" + i);
+        }
+        var nums = [5, 8, 7, 4, 3, 9];
+        var sum = 0;
+        for (var i = 0; i < nums.length; i++) {
+            sum += nums[i];
+        }
+        console.log(sum);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <form align="center">
+        <fieldset align="left">
+            <legend>
+                <h1>Employee Page</h1>
+            </legend>
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td>
+                        <input id="name" type="text" placeholder="Enter your name">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Last Name:</td>
+                    <td>
+                        <input id="ln" type="text" placeholder="Enter your last name">
+                    </td>
+                </tr>
+                <p>
+                    <td>Age:</td>
+                    <td>
+                        <input id="age" type="number" placeholder="Choose your age">
+                    </td>
+            </table>
+            <p>
+                <label class="main">Gender:</label>
+                <label>
+                    <input type="radio" value="male" name="gender">Male
+                </label>
+                <label>
+                    <input type="radio" value="female" name="gender">Female
+                </label>
+                <label>
+                    <input type="radio" value="other" name="gender">Other
+                </label>
+            </p>
+            <p>
+                <label>Salary:</label>
+                <input type="number" id="salary" placeholder="Your salary">
+            </p>
+            <p>
+                <input type="checkbox" id="manager">Check if you are Manager
+            </p>
+            <p>
+                <label>Comments:</label>
+                <textarea rows="4" cols="50" id="comments">
+
+                </textarea>
+            </p>
+            <input type="button" id="submitbtn" value="Submit Profile" />
+            <input type="button" id="calbtn" value="Calculate Tax" />
+        </fieldset>
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        var readForm = function () {
+            var name = $("#name").val();
+            var lastname = $("#ln").val();
+            var age = $("#age").val();
+            var gender = $("#gender").val();
+            var salary = $("#salary").val();
+            var manager = $("#manager").val();
+            var comments = $("#comments").val();
+            var saveForm = {
+                inputname: name,
+                inputlastname: lastname,
+                inputage: age,
+                inputgender: gender,
+                inputsalary: salary,
+                inputmanger: manager,
+                inputcomments: comments
+            }
+            return saveForm;
+        }
+        $("#submitbtn").on("click", readForm);
+        var animal = {
+            species: "dog",
+            name: "Kiki",
+            legs: 4,
+            fly: Boolean
+        }
+        animal.isPrey = false;
+        animal.isPredator = true;
+        animal["enemies"] = "cat";
+        animal.species = "cat";
+        animal.name = "kitty";
+        animal.legs = 4;
+        animal.fly = true;
+        animal.isPrey = false;
+        animal.isPredator = true;
+        console.log(animal);
+        var transportation = {
+            car: {
+                make: "Honda",
+                model: "Civic",
+                year: 2018
+            },
+            plane: {
+                model: "Boeing-777",
+                airline: "UA"
+            },
+            train: {
+                station: "Union Station",
+                wagons: 1234
+            }
+        }
+        console.log(transportation.plane.model);
+        console.log(transportation.train.wagons);
+        console.log(transportation.car.year);
+        transportation.car.make = "BMW";
+        transportation.plane.airline = "AA";
+        transportation.train.station = "LA";
+        var calculateTax = {
+            getStateTax: function (num) {
+                var result = num * 0.08;
+                return result;
+            },
+            getFederalTax: function (num) {
+                if (num > 10000) {
+                    var result = num * 0.2;
+                    return result;
+                }
+                else {
+                    var result = num * .1;
+                    return result;
+                }
+            },
+            exempt: true
+        }
+        console.log(calculateTax.getStateTax(15000))
+        console.log(calculateTax.getStateTax(55000))
+        console.log(calculateTax.getFederalTax(18000))
+        console.log(calculateTax.getFederalTax(65000))
+    </script>
+</body>
+
+</html>

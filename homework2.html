@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Homework 2 HTML</title>
+</head>
+
+<body>
+    <div id="maincontent" class="container">
+        <h1 class="title"></h1>
+        <p class="description"></p>
+        <h3 class="subtitle"></h3>
+        <p id="currentparagraph" class="description"></p>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function welcome() {
+            return "Welcome developer";
+        }
+        function number() {
+            return "3";
+        }
+        function stringFx() {
+            return "string";
+        }
+        function boolFx() {
+            return true;
+        }
+        function nill() {
+            return null;
+        }
+        function parameter(x) {
+            console.log(x);
+        }
+        function addThree(x, y, z) {
+            var sum = x + y + z;
+            console.log(sum);
+        }
+        function writeHtml() {
+            $(".title").text("This is the title of the Page");
+            $(".subtitle").html("New Subtitle");
+            $("#currentparagraph").append("This paragraph has been appended");
+            $("#maincontent").append("<h4>New Element</h4>");
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>My FAQs page</title>
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    </style>
+</head>
+
+<body>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+    <!-- All your code goes below here-->
+    <div class="col-md-4">
+        <form action="" id="faqForm">
+            <h1>My FAQs</h1>
+            <h3>FAQ Category</h3>
+            <select id="category" class="form-control input-xlarge" name="category">
+            </select>
+            <p>Question:
+                <input id="question" type="text" name="Question">
+            </p>
+            <p>Answer:
+                <input id="answer" type="text" name="Answer">
+            </p>
+            <p>Display Order:
+                <input type="number" id="order" name="Display">
+            </p>
+            <button type="button" id="btn-submit">Submit</button>
+        </form>
+    </div>
+    <script>
+        sabio.page.startUp = () => {
+            sabio.page.getfaqCategory();
+            $('#btn-submit').on('click', sabio.page.handlers.postItems);
+            sabio.page.validation();
+        }
+        sabio.page.getfaqCategory = () => {
+            let url = "https://pacoima-ypi.azurewebsites.net/api/faqcategories";
+            let settings = {
+                cache: false,
+                contentType: "application/x-www-form-urlencoded",
+                dataType: 'json',
+                success: sabio.page.faqCategoryId,
+                error: sabio.page.onError,
+                type: "GET",
+                xhrFields: {
+                    withCredentials: true
+                },
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.faqCategoryId = (data) => {
+            for (var i = 0; i < data.items.length; i++) {
+                let option = $('#category').append("<option value=" + data.items[i].id + ">" + data.items[i].name + "</option>");
+
+            }
+        }
+
+        sabio.page.handlers.postItems = () => {
+            var read = sabio.page.readData();
+            sabio.page.postItems(read);
+        }
+        sabio.page.readData = () => {
+            return {
+                faqCategoryId: $('#category').val(),
+                category: $('#category').val(),
+                question: $('#question').val(),
+                answer: $('#answer').val(),
+                displayOrder: $('#order').val()
+            }
+        }
+
+
+
+        sabio.page.postItems = (faq) => {
+            let url = "https://pacoima-ypi.azurewebsites.net/api/faqs";
+            let settings = {
+                cache: false,
+                contentType: "application/x-www-form-urlencoded",
+                dataType: 'json',
+                error: sabio.page.onError,
+                type: "POST",
+                data: faq,
+                xhrFields: {
+                    withCredentials: true
+                },
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.validation = () => {
+            const rules = {
+                Question: {
+                    required: true
+                },
+                Answer: {
+                    required: true,
+                },
+                Display: {
+                    required: true
+                }
+            }
+            const messages = {
+                Question: {
+                    required: "Please type in your question"
+                },
+                Answer: {
+                    required: "Please type in your answer"
+                },
+                Display: {
+                    required: "Please input your number"
+                }
+            }
+            const options = {
+                rules: rules,
+                messages: messages
+            }
+            $('#faqForm').validation(options)
+        }
+    </script>
+</body>

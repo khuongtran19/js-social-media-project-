@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Arrays B</title>
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .author {
+            padding: 20px;
+            margin: 20px;
+            border: solid black 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <!-- All your code goes below here-->
+    <div class="container">
+        <div class="col-md-6" id="shippingFormContainer">
+            <h1>Author Information</h1>
+            <div class="row">
+                <form class="col-md-4">
+                    <p>
+                        First Name
+                    </p>
+                    <input type="text" placeholder="First Name" id="fName" />
+                    <p>
+                        Last Name
+                    </p>
+                    <input type="text" placeholder="Last Name" id="lName" />
+                    <p>
+                        Age
+                    </p>
+                    <input type="number" placeholder="Age" id="age" />
+                    <p>
+                        Salary
+                    </p>
+                    <input type="number" placeholder="Salary" id="salary" />
+                    <br />
+                    <input type="button" value="Submit" id="btnSubmit" />
+                    <br />
+                </form>
+            </div>
+        </div>
+        <ul id="landing"></ul>
+    </div>
+    <script>
+
+        sabio.page.startUp = function () {
+            sabio.page.getAuthor();
+            var id = 1931;
+            sabio.page.getAuthorById(id)
+            var author = {
+                firstName: "Sabbio",
+                lastName: "Blogger",
+                age: 21,
+                salary: 1000000
+            }
+            sabio.page.addAuthor(author);
+            author.id = 1931;
+            author.age = 23;
+            sabio.page.updateAuthor(author);
+            sabbio.page.deleteAuthor(1485588035);
+        }
+        /* -----------------------HANDLERS---------------------------------- */
+
+
+
+
+        sabio.page.onGetAuthorsSuccess = function (data, textStatus, XHR) {
+            console.log("getAll", data);
+            for (let index = 0; index < data.items.length; index++) {
+                $("#landing").append('<li> + data.item[index].firtName +  </li>')
+                $("#landing").append('<li> + data.item[index].lastName +  </li>')
+                $("#landing").append('<li> + data.item[index].age +  </li>')
+                $("#landing").append('<li> + data.item[index].salary +  </li>')
+            }
+        }
+        sabio.page.onAddAuthorSuccess = function (data) {
+            console.log('post', data);
+        }
+        sabio.page.onGetAuthorByIdSuccess = function (data) {
+            console.log('getById', data)
+        }
+        sabio.page.onError = function (XHR, textStatus, error) {
+            console.log(XHR);
+        }
+        sabio.page.onUpdateAuthorSuccess = function (data) {
+            console.log('onUpdate', data);
+        }
+        sabio.page.onDeleteAuthorSuccess = function (data) {
+            console.log('delete', data)
+        }
+
+
+        /* -----------------------AJAX---------------------------------- */
+        sabio.page.getAuthor = function () {
+            var url = "http://sabioapi2.azurewebsites.net/api/authors/";
+            var settings = {
+                headers: {
+                    'SABIO-AUTH': 'U4TM3BMU5'
+                },
+                success: sabio.page.onGetAuthorsSuccess,
+                error: sabio.page.onError,
+                type: "GET",
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.addAuthor = function (author) {
+            var url = "http://sabioapi2.azurewebsites.net/api/authors/";
+            var settings = {
+                headers: {
+                    'SABIO-AUTH': 'U4TM3BMU5'
+                },
+                success: sabio.page.onAddAuthorSuccess,
+                error: sabio.page.onError,
+                type: "POST",
+                data: author
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.deleteAuthor = function (author) {
+            var url = "http://sabioapi2.azurewebsites.net/api/authors/" + id;
+            var settings = {
+                headers: {
+                    'SABIO-AUTH': 'U4TM3BMU5'
+                },
+                success: sabio.page.onDeleteAuthorSuccess,
+                error: sabio.page.onError,
+                type: "DELETE",
+            };
+            $.ajax(url, settings);
+        }
+
+    </script>
+</body>
+
+</html>

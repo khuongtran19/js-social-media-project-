@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Classwork #9</title>
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div class="container">
+
+    </div>
+
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <script type="text/javascript">
+        sabio.page.startUp = function () {
+            sabio.page.fillTemplate();
+        };
+
+        sabio.page.fillTemplate = function () {
+            var loadTemplate = function () {
+                var templateStr = $("#template").html();
+                var templateVdom = $(templateStr);
+                return templateVdom;
+            }; // loadTemplate end
+
+            var modifyTemplate = function (data) {
+                var template = loadTemplate();
+                $(".Name", template).text(data.movieName);
+                // template.find(".media-heading").text(data.title);  alternate
+                $(".Year", template).text(data.year);
+                $(".Director", template).text(data.directorName);
+                $(".Genre", template).text(data.genre);
+                $("body").append(template);
+
+            };
+            for (var i = 0; i < movies.length; i++) {
+                if (movies[i].wasSuccessful === true) {
+                    modifyTemplate(movies[i]);
+                }
+            }
+        };
+
+        var movies = [
+            {
+                "movieName": "Doctor Strange",
+                "directorName": "Scott Derrickson",
+                "year": 2016,
+                "wasSuccessful": true,
+                "genre": "Action"
+            },
+            {
+                "moviename": "Avenger Infinity War",
+                "directorName": "Rossue Brothers",
+                "year": 2018,
+                "wasSuccessful": false,
+                "genre": "Action"
+            },
+            {
+                "movieName": "Forrest Gump",
+                "directorName": "Robert Zemeckis",
+                "year": 1994,
+                "wasSuccessful": true,
+                "genre": "Comedy"
+            }
+        ]
+// End Template Exer.
+
+    </script>
+    <!--Create a Template-->
+    <script type="text/html" id="template">
+        <div class="row newForm">
+            <div class="comments-form col-md-6">
+                <h2 class="title">Title:</h2>
+                <p class="Name"></p>
+                <form>
+                        <div class="form-group">
+                                <label>Year Released: </label>
+                                <p class="Year"></p>
+                        </div>
+                        <div class="form-group">
+                                <label>Director: </label>
+                                <p class="Director"></p>
+                        </div>
+                        <div class="form-group">
+                                <label>Genre: </label>
+                                <p class="Genre"></p>
+                        </div>
+                        </form>
+                        
+            </div>
+        </div>
+    </div>
+</script>
+    <!--End of Template-->
+</body>
+
+</html>

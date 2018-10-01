@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Comment - Sabio.JS</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        li.active {
+            font-weight: bolder;
+            text-decoration: underline;
+        }
+
+        .commment .comment {
+            margin-left: 40px;
+
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Sabio Full Stack Training</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="postInput.html">1) Post Input</a>
+                    </li>
+                    <li>
+                        <a href="showComments.html">2) Show Hidden Comments</a>
+                    </li>
+                    <li class="active">
+                        <a href="addComments.html">3) Add Comments/Replies</a>
+                    </li>
+                    <li>
+                        <a href="generate.html">4) Generate from JS Object</a>
+                    </li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container instructions">
+
+        <a class="btn btn-primary cmdInstructions" role="button" data-toggle="collapse" href="#instructions" aria-expanded="false"
+            aria-controls="instructions">
+            Show/Hide Instructions
+        </a>
+
+        <div id="instructions" class="collapse">
+
+            <div class="well instructions ">
+                <div>The Comments for this blog page are in the source of the page.</div>
+                <div>
+                    <span class="label label-success label-as-badge">1</span>
+                    <span>
+                        Pick up where you left off in the last step. Feel free to copy that entire file and start a new one using that source code.
+                    </span>
+                </div>
+
+                <div>
+                    <span class="label label-success label-as-badge">2</span>
+                    <span>
+                        Add a button or "button link" that when clicked, will reveal a form that can be used to capture the data from the user that
+                        will be used as a "Comment" to the blog.
+                    </span>
+
+                </div>
+
+                <div>
+                    <span class="label label-success label-as-badge">3</span>
+                    <span>
+                        Add a button or "button link" to the form revealed in step 2. When you click on this button take the content from the form
+                        and add it to the DOM in the "shape" (HTML structure) of a comment.
+                    </span>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="blog-post">
+                <h2 class="blog-post-title">The Best Blog Post Title</h2>
+                <p class="blog-post-meta">by
+                    <a href="#">gregorio@sabio.la</a>
+                </p>
+
+                <div id="lipsum">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu sapien scelerisque, dictum nisi vehicula, tincidunt nunc.
+                        Quisque ut lacinia ipsum, ut fermentum nisl. Donec et volutpat lectus. Cras tincidunt imperdiet tincidunt.
+                        Mauris consequat vestibulum euismod. Phasellus velit mauris, laoreet ut lacus sagittis, ultricies
+                        dapibus arcu. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec nulla risus, imperdiet
+                        ut urna pulvinar, cursus dignissim turpis. Curabitur cursus vehicula facilisis. Donec odio enim,
+                        blandit id cursus vel, pretium et lectus. Curabitur id eros rhoncus, bibendum sem et, ultricies magna.
+                        Suspendisse placerat semper pellentesque. Aenean varius molestie elit, at elementum neque rutrum
+                        luctus. Mauris at nisi in neque aliquam pulvinar. Aenean eu aliquet nisl.
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="row commentsContainer">
+            <div class="comments">
+                <h2 class="title">There are 6 comments</h2>
+
+                <!-- comment start -->
+                <div class="comment mediaclearfix">
+                    <div class="comment-avatar media-left">
+                        <img src="http://placehold.it/50x50" alt="avatar">
+                    </div>
+                    <div class="comment-content media-body">
+                        <h3 class="media-heading">Comment title</h3>
+                        <div class="comment-meta">By
+                            <a href="#">admin</a> | Today, 12:31</div>
+                        <div class="comment-body clearfix">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                laboris nisi ut aliquip ex ea commodo </p>
+                            <a href="#" class="btn btn-gray more reply">
+                                <i class="fa fa-reply"></i> Reply</a>
+                        </div>
+                    </div>
+
+                    <!-- comment start -->
+                    <div class="comment mediaclearfix">
+                        <div class="comment-avatar media-left">
+                            <img src="http://placehold.it/50x50" alt="avatar">
+                        </div>
+                        <div class="comment-content media-body clearfix">
+                            <h3 class="media-heading">Comment title</h3>
+                            <div class="comment-meta">By
+                                <a href="#">admin</a> | Today, 12:31</div>
+                            <div class="comment-body">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                    ullamco laboris nisi ut aliquip ex ea commodo </p>
+                                <a href="#" class="btn btn-gray more  reply">
+                                    <i class="fa fa-reply"></i> Reply</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- comment end -->
+
+                </div>
+                <!-- comment end -->
+                <!-- comment start -->
+                <div class="comment mediaclearfix">
+                    <div class="comment-avatar media-left">
+                        <img src="http://placehold.it/50x50" alt="avatar">
+                    </div>
+                    <div class="comment-content media-body clearfix">
+                        <h3 class="media-heading">Comment title</h3>
+                        <div class="comment-meta">By
+                            <a href="#">admin</a> | Today, 12:31</div>
+                        <div class="comment-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                laboris nisi ut aliquip ex ea commodo </p>
+                            <a href="#" class="btn btn-gray more  reply">
+                                <i class="fa fa-reply"></i> Reply</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- comment end -->
+                <!-- comment start -->
+                <div class="comment mediaclearfix">
+                    <div class="comment-avatar media-left">
+                        <img src="http://placehold.it/50x50" alt="avatar">
+                    </div>
+                    <div class="comment-content media-body clearfix">
+                        <h3 class="media-heading">Comment title</h3>
+                        <div class="comment-meta">By
+                            <a href="#">admin</a> | Today, 12:31</div>
+                        <div class="comment-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                laboris nisi ut aliquip ex ea commodo </p>
+                            <a href="#" class="btn btn-gray more  reply">
+                                <i class="fa fa-reply"></i> Reply</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- comment end -->
+                <!-- comment start -->
+                <div class="comment mediaclearfix">
+                    <div class="comment-avatar media-left">
+                        <img src="http://placehold.it/50x50" alt="avatar">
+                    </div>
+                    <div class="comment-content media-body clearfix">
+                        <h3 class="media-heading">Comment title</h3>
+                        <div class="comment-meta">By
+                            <a href="#">admin</a> | Today, 12:31</div>
+                        <div class="comment-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                laboris nisi ut aliquip ex ea commodo </p>
+                            <a href="#" class="btn btn-gray more  reply">
+                                <i class="fa fa-reply"></i> Reply</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- comment end -->
+                <!-- comment start -->
+                <div class="comment mediaclearfix">
+                    <div class="comment-avatar media-left">
+                        <img src="http://placehold.it/50x50" alt="avatar">
+                    </div>
+                    <div class="comment-content media-body clearfix">
+                        <h3 class="media-heading">Comment title</h3>
+                        <div class="comment-meta">By
+                            <a href="#">admin</a> | Today, 12:31</div>
+                        <div class="comment-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                laboris nisi ut aliquip ex ea commodo </p>
+                            <a href="#" class="btn btn-gray more  reply">
+                                <i class="fa fa-reply"></i> Reply</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- comment end -->
+            </div>
+        </div>
+
+        <div class="row newCommentForm">
+            <div class="comments-form col-md-6">
+                <h2 class="title">Add your comment</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Comment Title</label>
+                        <input type="text" class="form-control cmt-title" placeholder="Comment Title">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label>
+                        <input type="email" class="form-control cmt-email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label> Comment</label>
+                        <textarea placeholder="Comment" class="form-control cmt-body" rows="5"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-default" id="cmdSubmit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+    <!--1. Add Form
+        2. read data from form
+        3. Define a template to HTML
+        4. Load Template
+        5. Modified template
+        6. Append Template
+        7. Clear from-->
+    <footer class="text-center">
+        <hr /> This is the footer of the document. Here to take up space.
+    </footer>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+
+    <!-- All your code goes below here-->
+
+
+    <script type="text/javascript">
+        sabio.page.activeReplyLink = null;
+
+        sabio.page.startUp = function () {
+
+            console.log("startUp is firing");
+            $("#cmdSubmit, .cmdAddComment").on('click', sabio.page.handlers.addComment);
+            $(".comments").on('click', ".reply", sabio.page.handlers.reply);
+        }; //StartUp End
+
+        // Last step
+        sabio.page.handlers.addComment = function (evt) {
+            evt.preventDefault();
+            var data = sabio.page.readFormData();
+            sabio.page.modifyTemplate(data);
+            sabio.page.clearForm();
+            sabio.activeReplyLink = null;
+        }; // End
+
+        sabio.page.handlers.reply = function (evt) {
+            evt.preventDefault();
+            // console.log(this);
+            sabio.page.activeReplyLink = this;
+            $("#myModal").modal('show');
+        };// Reply End
+
+        //7. CLear Form
+        sabio.page.clearForm = function () {
+            var activeForm;
+            if (sabio.page.activeReplyLink == null) {
+                activeForm = $(".newCommentForm form");
+            }
+            else {
+                activeForm = $(".modal-body form");
+            }
+            activeForm[0].reset();
+        }; // clearForm End
+
+
+        //2. Read data from form
+        sabio.page.readFormData = function () {
+            var activeForm;
+            if (sabio.page.activeReplyLink == null) {
+                activeForm = $(".newCommentForm form");
+            }
+            else {
+                activeForm = $(".modal-body form");
+            }
+            var titleInput = $(".cmt-title", activeForm).val();
+            var emailInput = $(".cmt-email", activeForm).val();
+            var commentInput = $(".cmt-body", activeForm).val();
+            var commentData = {
+                title: titleInput,
+                email: emailInput,
+                comment: commentInput
+            };
+            return commentData;
+        }; // readFormData End
+
+        //4. Loading Template
+        sabio.page.loadTemplate = function () {
+            var templateStr = $("#template").html();
+            var templateVdom = $(templateStr);
+            return templateVdom;
+        }; // loadTemplate End
+
+        //5. Modify Template
+        sabio.page.modifyTemplate = function (data) {
+            var template = sabio.page.loadTemplate();
+            // template.find(".media-heading").text(data.title); alternate
+            $(".media-heading", template).text(data.title);
+            $(".comment-meta a", template).text(data.email);
+            $(".comment-body p", template).text(data.comment);
+            if (sabio.page.activeReplyLink == null) {
+                $(".comments").append(template);
+            }
+            else {
+                $(sabio.page.activeReplyLink).closest(".comment").append(template);
+                $("#myModal").modal("hide");
+            }
+        }; // Modify Template End
+
+
+    </script>
+    <!--3. Define a template-->
+    <script type="text/html" id="template">
+     <!-- comment start -->
+     <div class="comment mediaclearfix">
+        <div class="comment-avatar media-left">
+            <img src="http://placehold.it/50x50" alt="avatar">
+        </div>
+        <div class="comment-content media-body clearfix">
+            <h3 class="media-heading">Comment title</h3>
+            <div class="comment-meta">By
+                <a href="#">admin</a> | Today, 12:31</div>
+            <div class="comment-body">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laboris nisi ut aliquip ex ea commodo </p>
+                <a href="#" class="btn btn-gray more  reply">
+                    <i class="fa fa-reply"></i> Reply</a>
+            </div>
+        </div>
+    </div>
+    <!-- comment end -->
+</script>
+
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Add Your Reply</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="comments-form">
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Comment Title</label>
+                                <input type="text" class="form-control cmt-title" placeholder="Comment Title">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email</label>
+                                <input type="email" class="form-control cmt-email" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <label> Comment</label>
+                                <textarea placeholder="Comment" class="form-control cmt-body" rows="5"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="button" value="Submit Reply" class="btn btn-success cmdAddComment" data-formid="#comment-form-reply">
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+</body>
+
+
+
+</html>

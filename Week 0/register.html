@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Employer</title>
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    </style>
+</head>
+
+<body>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+    <!-- All your code goes below here-->
+    <form id="formUser">
+        <div id="container">
+            <p>First Name:
+                <input id="fName" placeholder="First Name" type="text" name="First Name">
+            </p>
+            <p>Last Name:
+                <input id="lName" placeholder="Last Name" type="text" name="Last Name">
+            </p>
+            <p>Password:
+                <input id="password" placeholder="Password" type="password" name="Password">
+            </p>
+            <p>Confirm:
+                <input id="conpassword" placeholder="Confirm Password" type="password" name="Confirm Password">
+            </p>
+            <p>Email:
+                <input id="email" placeholder="Email" type="email">
+            </p>
+            <p>Already register?
+                <button type="button" id="alrReg">
+                    <a class="btn-alrReg" href="http://localhost:5500/Week%200/login.html">Login</a>
+                </button>
+            </p>
+            <button type="button" id="btn-submit">
+                <a href="http://localhost:5500/Week%200/homepage.html">Register</a>
+            </button>
+        </div>
+    </form>
+    <script>
+        sabio.page.startUp = () => {
+            $('#btn-submit').on('click', sabio.page.handlers.addUser);
+            sabio.page.validation();
+        }
+        sabio.page.handlers.addUser = () => {
+            var read = sabio.page.readData();
+            sabio.page.addUser(read);
+        }
+        sabio.page.addUser = (user) => {
+            let url = "https://pacoima-ypi.azurewebsites.net/api/users/register/employer";
+            let settings = {
+                cache: false,
+                contentType: "application/x-www-form-urlencoded",
+                dataType: 'json',
+                error: sabio.page.onError,
+                type: "POST",
+                data: user,
+                xhrFields: {
+                    withCredentials: true
+                },
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.onError = (XHR, textStatus, error) => {
+            console.log(XHR);
+        }
+        sabio.page.readData = () => {
+            return {
+                firstName: $('#fName').val(),
+                lastName: $('#lName').val(),
+                password: $('#password').val(),
+                email: $('#email').val()
+            };
+        }
+        sabio.page.validation = () => {
+            const rules = {
+                'Password': {
+                    required: true,
+                    min: 6,
+                    number: {
+                        min: 1
+                    },
+                },
+                'Confirm Password': {
+                    equalTo: 'Password',
+                }
+            }
+            const messages = {
+                'Password': {
+                    required: "Please enter Password",
+                    min: "Please Enter at least 6 characters",
+                    number: {
+                        min: "Please enter at least 1 number",
+                    }
+                },
+                'Confirm Password': {
+                    equalTo: "Please enter the same password",
+                }
+            }
+            const options = {
+                rules: rules,
+                messages: messages
+            };
+            $('#formUser').validate(options);
+        }
+    </script>
+</body>

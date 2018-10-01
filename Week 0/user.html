@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Create User</title>
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .user {
+            padding: 20px;
+            margin: 20px;
+            border: solid black 1px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+    <!-- All your code goes below here-->
+    <div class="container">
+        <div class="row">
+            <div id="formContainer">
+                <h1>User Form</h1>
+                <div class="row">
+                    <form class="col-md-4" id="userForm">
+                        <p>First Name</p>
+                        <input type="text" placeholder="First Name" id="fName" name="First Name" />
+                        <p>Middle Name</p>
+                        <input type="text" placeholder="Middle Name" id="mName" name="Middle Name" />
+                        <p>Last Name</p>
+                        <input type="text" placeholder="Last Name" id="lName" name="Last Name" />
+                        <p>Email</p>
+                        <input type="text" placeholder="Email" id="email" name="Email" />
+                        <p>Password</p>
+                        <input type="text" placeholder="Password" id="password" name="password" />
+                        <p>Confirm Password</p>
+                        <input type="text" placeholder="confirm Password" id="confirmPassword" name="Confirm Password" />
+                        <p>Day of Birth</p>
+                        <input type="text" placeholder="Day of Birth" id="dob" name="day of birth" />
+                        <p>Phone</p>
+                        <input type="number" placeholder="Phone Number" id="phone" name="Phone" />
+                        <br>
+                        <input type="checkbox" id="admin" name="administrator" value="on">Administrator
+                        <br>
+                        <input type="button" value="Add User" class="btn-warning" id="btnSubmit" />
+                        <br>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="landing"></div>
+    </div>
+    <script>
+        sabio.page.startUp = function () {
+            sabio.page.getUsers();
+            $("#btnSubmit").on('click', sabio.page.handlers.submitForm);
+            $("#landing").on('click', ".delete", sabio.page.handlers.deleteUser);
+            $("#landing").on('click', ".edit", sabio.page.handlers.getUserById);
+            sabio.page.validationForm();
+        }
+        /* -----------------------HANDLERS---------------------------------- */
+        sabio.page.handlers.submitForm = function () {
+            var user = sabio.page.readFormData();
+            if ($('#userForm').valid()) {
+                user.id = sabio.page.currentId;
+                sabio.page.updateUser(user);
+            }
+            else {
+                sabio.page.addUser(user);
+            }
+        }
+        sabio.page.handlers.deleteUser = function () {
+            sabio.page.currentId = $(this).closest(".user").prop("id");
+            sabio.page.deleteUser(sabio.page.currentId);
+        }
+        sabio.page.handlers.getUserById = function () {
+            sabio.page.currentId = $(this).closest(".user").prop("id");
+            sabio.page.getUserById(sabio.page.currentId);
+        }
+        /* -----------------------Call Back Function---------------------------------- */
+        sabio.page.onGetUsersSuccess = function (data, textStatus, XHR) {
+            console.log("getAll", data);
+            for (let i = 0; i < data.items.length; i++) {
+                var template = $($("#template").html());
+                template.find(".firstName").text(sabio.page.pascalFunction(data.items[i].firstName));
+                template.find(".middleName").text(data.items[i].middleName);
+                template.find(".lastName").text(sabio.page.pascalFunction1(data.items[i].lastName));
+                template.find(".email").text(sabio.page.lowerLetter(data.items[i].email));
+                template.find(".password").text(sabio.page.password(data.items[i].password));
+                if (data.items[i].administrator === "true") {
+                    template.find(".dob").text(sabio.page.dobFormat(data.items[i].dob));
+                    template.find(".phone").text(sabio.page.phoneFormat(data.items[i].phone));
+                }
+                template.find(".username").text(sabio.page.username(data.items[i].email));
+                template.find(".admin").text(data.items[i].administrator);
+                template.prop("id", data.items[i].id);
+                $("#landing").append(template);
+            }
+        }
+        sabio.page.onAddUserSuccess = function (data) {
+            console.log("post", data);
+            $("#userForm")[0].reset();
+            $("#landing").empty();
+            sabio.page.getUsers();
+        }
+        sabio.page.onGetUserByIdSuccess = function (data) {
+            console.log('getByID', data);
+            $('#fName').val(data.item.firstName);
+            $('#mName').val(data.item.middleName);
+            $('#lName').val(data.item.lastName);
+            $('#email').val(data.item.email);
+            $('#dob').val(data.item.dob);
+            $('#phone').val(data.item.phone);
+        }
+        sabio.page.onUpdateUserSuccess = function (data) {
+            console.log("onUpdate", data);
+            $("#userForm")[0].reset();
+            $("#landing").empty();
+            sabio.page.getUsers().hide();
+            sabio.page.currentId = null;
+        }
+        sabio.page.onDeleteUserSuccess = function (date) {
+            $("#" + sabio.page.currentId).remove();
+            sabio.page.currentId = null;
+        }
+        sabio.page.onError = function (XHR, textStatus, error) {
+            console.log(XHR);
+        }
+        /* -----------------------AJAX---------------------------------- */
+        sabio.page.getUsers = function () {
+            var url = "http://sabioapi2.azurewebsites.net/api/entities/createusers/";
+            var settings = {
+                headers: {
+                    'SABIO-AUTH': 'U4TM3BMU5'
+                },
+                success: sabio.page.onGetUsersSuccess,
+                error: sabio.page.onError,
+                type: "GET",
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.getUserById = function (id) {
+            var url = "http://sabioapi2.azurewebsites.net/api/entities/createusers/" + id;
+            var settings = {
+                headers: {
+                    'SABIO-AUTH': 'U4TM3BMU5'
+                },
+                success: sabio.page.onGetUserByIdSuccess,
+                error: sabio.page.onError,
+                type: "GET",
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.addUser = function (user) {
+            var url = "http://sabioapi2.azurewebsites.net/api/entities/createusers/";
+            var settings = {
+                headers: {
+                    'SABIO-AUTH': 'U4TM3BMU5'
+                },
+                success: sabio.page.onAddUserSuccess,
+                error: sabio.page.onError,
+                type: "POST",
+                data: user
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.updateUser = function (user) {
+            var url = "http://sabioapi2.azurewebsites.net/api/entities/createusers/" + user.id;
+            var settings = {
+                headers: {
+                    'SABIO-AUTH': 'U4TM3BMU5'
+                },
+                success: sabio.page.onUpdateUserSuccess,
+                error: sabio.page.onError,
+                type: "PUT",
+                data: user
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.deleteUser = function (id) {
+            var url = "http://sabioapi2.azurewebsites.net/api/entities/createusers/ " + id;
+            var settings = {
+                headers: {
+                    'SABIO-AUTH': 'U4TM3BMU5'
+                },
+                success: sabio.page.onDeleteUserSuccess,
+                error: sabio.page.onError,
+                type: "DELETE",
+            };
+            $.ajax(url, settings);
+        }
+        /* -----------------------Ultilities---------------------------------- */
+        sabio.page.validationForm = function () {
+            const rules = {
+                'First Name': {
+                    required: true,
+                    range: [2, 50]
+                },
+                'Last Name': {
+                    required: true,
+                    range: [2, 50]
+                },
+                'Email': {
+                    required: true,
+                    email: true
+                },
+                'password': {
+                    required: true,
+                    range: [8, 15]
+                },
+                'Confirm Password': {
+                    required: true,
+                    equalTo: "#password "
+                },
+                'day of birth': {
+                    required: true,
+                    date: true
+                },
+                'Phone': {
+                    digits: true,
+                    range: [10, 10]
+                }
+            };
+            const messages = {
+                'First Name': {
+                    required: 'Please type in your first name',
+                    range: 'Please type your first name 2-50 characters'
+                },
+                'Last Name': {
+                    required: 'Please type in your last name'
+                },
+                'Email': {
+                    required: 'Please type in your email',
+                    email: 'Please type email format'
+                },
+                'password': {
+                    required: 'Please type in your password'
+                },
+                'Confirm Password': {
+                    required: 'Please type in your password',
+                    equalTo: 'Please type in same password'
+                },
+                'date of birth': {
+                    required: 'Please type in your day of birth'
+                },
+                'Phone': {
+                    digits: 'Please enter number',
+                    range: 'Please enter 10 numbers'
+                }
+            };
+            const options = {
+                rules: rules,
+                messages: messages
+            };
+            $('#userForm').validate(options);
+        }
+        sabio.page.lowerLetter = function (item) {
+            var lower = item.toLowerCase();
+            return lower;
+        }
+        sabio.page.pascalFunction = function (item1) {
+            var wordString = sabio.page.lowerLetter(item1);
+            return wordString.charAt(0).toUpperCase() + wordString.substring(1);
+        }
+        sabio.page.pascalFunction1 = function (item1) {
+            var wordString = sabio.page.lowerLetter(item1);
+            return wordString.charAt(0).toUpperCase() + ". ";
+        }
+        sabio.page.phoneFormat = function (item4) {
+            return item4.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+        }
+        sabio.page.dobFormat = function (item5) {
+            return item5.replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3')
+        }
+        sabio.page.password = function (item6) {
+            let string1 = " ";
+            if (item6) {
+                string1 = item6.substring(0, 4);
+                if (item6.length > 3) {
+                    string1 += Array(item6.length - 4).fill('*').join('');
+                }
+            }
+            return string1;
+        }
+        sabio.page.username = function (item7) {
+            return item7.substring(0, item7.indexOf("@"))
+        }
+        sabio.page.readFormData = function () {
+            return {
+                firstName: $("#fName").val(),
+                middleName: $("#mName").val(),
+                lastName: $("#lName").val(),
+                email: $("#email").val(),
+                password: $("#password").val(),
+                dob: $("#dob").val(),
+                phone: $("#phone").val(),
+                administrator: $("#admin").val()
+            };
+        }
+
+    </script>
+    <script type="text/html" id="template">
+        <div class="user col-md-4">
+            <li>Name: <span class="firstName"></span> <span class="lastName"></span></li>
+            <li>Username: <span class="username"></span></li>
+            <li>Day of Birth: <span class="dob"></span></li>
+            <li>Password: <span class="password"></span></li>
+            <li>Phone: <span class="phone"></span></li>
+            <li>Administrator: <span class="admin"></span></li>
+            <button class="btn-primary edit">Edit</button>
+            <button class="btn-danger delete">Delete</button>
+        </div>
+    
+    </script>
+</body>
+
+</html>

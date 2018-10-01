@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        var car = {
+            make: "",
+            model: "",
+            year: 0
+        }
+        var animal = {
+            animalName: "",
+            animalType: "",
+            age: 0,
+            neutered: Boolean
+        }
+        var person = {
+            firstName: "",
+            lastName: "",
+            age: 0,
+            occ: "",
+            address: {
+                street: "",
+                city: "",
+                state: "",
+                zip: 0
+            }
+        }
+        car.make = "honda";
+        car.model = "civic";
+        car.year = 2018;
+        console.log(car);
+        animal.animalName = "Chucho";
+        animal.animalType = "dog";
+        animal.age = "3";
+        animal.neutered = false;
+        console.log(animal);
+        person.address.street = "101 Code St";
+        person.address.city = "Los Angeles";
+        person.address.state = "CA";
+        person.address.zip = 00404;
+        person.firstName = "John";
+        person.lastName = "Smith";
+        person.age = 33;
+        person.occ = "Musician";
+        console.log(person);
+        animal["animalName"] = "Fido";
+        animal["animalType"] = "dog";
+        animal["age"] = "4";
+        animal["neutered"] = true;
+        console.log(animal);
+        car.Vin = "N1234";
+        var accounts = {
+            BankOfAmerica: {
+                number: 12345,
+                nickname: "BA",
+                city: "Los Angeles",
+                checking: true,
+                services: {
+                    stolen: true,
+                    creditReport: true
+                }
+            },
+            Chase: {
+                number: 78910,
+                nickname: "Ch",
+                city: "San Diego",
+                checking: false,
+                services: {
+                    stolen: false,
+                    creditReport: true
+                }
+            },
+            WellsFargo: {
+                number: 11223,
+                nickname: "WF",
+                city: "Los Angeles",
+                checking: true,
+                services: {
+                    stolen: false,
+                    creditReport: false
+                }
+            }
+        }
+        console.log(car);
+        console.log(typeof accounts);
+        console.log(typeof accounts.Chase);
+        console.log(typeof accounts.BankOfAmerica.number);
+        console.log(typeof accounts.WellsFargo.city);
+        console.log(typeof accounts.Chase.services.stolen);
+        console.log(typeof null);
+        var printServices = function (bank) {
+            console.log(bank.number);
+            console.log(bank.services.stolen);
+            console.log(bank.services.creditReport);
+        }
+    </script>
+</body>
+
+</html>

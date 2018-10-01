@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="box1">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">First Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" placeholder="First Name" oninvalid="alert('You must fill out the form!');" id="fName"
+                        required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Last Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="lName" placeholder="Last Name" oninvalid="alert('You must fill out the form!');"
+                        required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Jersey #</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="jersey" placeholder="Jersey Number" oninvalid="alert('You must fill out the form!');"
+                        required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Position</label>
+                <div class="col-sm-10">
+                    <!--<input type="password" class="form-control" id="position" >-->
+                    <select id="position" class="form-control input-xlarge" oninvalid="alert('You must fill out the form!');" required>
+                        <option value="" selected>Please Select</option>
+                        <option value="P">P</option>
+                        <option value="C">C</option>
+                        <option value="1B">1B</option>
+                        <option value="2B">2B</option>
+                        <option value="3B">3B</option>
+                        <option value="SS">SS</option>
+                        <option value="CF">CF</option>
+                        <option value="LF">LF</option>
+                        <option value="RF">RF</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Batting Style</label>
+                <div class="col-sm-10">
+                    <select id="position1" class="form-control input-xlarge" oninvalid="alert('You must fill out the form!');" required>
+                        <option value="" selected>Please Select</option>
+                        <option value="LH">Left</option>
+                        <option value="RH">Right</option>
+                        <option value="SH">Switch</option>
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary" id="lineUpBtn">Add to Line-Up</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="box2">
+
+    </div>
+    <script src="https://code.jquery.com/jquery.min.js "></script>
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js "></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js "></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js "></script>
+    <script type="text/javascript">
+        sabio.page.startUp = function () {
+            $("#lineUpBtn").on("click", sabio.page.handlers.submitForm);
+        };
+        // startUp End.
+
+        // submitForm Start.
+        sabio.page.handlers.submitForm = function (evt) {
+            evt.preventDefault();
+            var data = sabio.page.transferFormToTemplate();
+            sabio.page.clearForm();
+            sabio.page.fillTemplate(data);
+
+        };
+        // submitForm End.
+
+        // clearForm Start.
+        sabio.page.clearForm = function () {
+            $("form")[0].reset();
+        };
+        // clearForm End.
+
+        // readFormData Start.
+        sabio.page.transferFormToTemplate = function () {
+            var first = $("#fName").val();
+            var last = $("#lName").val();
+            var jersey = $("#jersey").val();
+            var position = $("#position :selected").val();
+            var position1 = $("#position1 :selected").val();
+            // Check on attr
+            var outPut = {
+                first: first,
+                last: last,
+                jersey: jersey,
+                position: position,
+                position1: position1,
+            };
+            return outPut;
+        };
+        // readFormData End.
+
+        // fillTemplate Start.
+        sabio.page.fillTemplate = function (data) {
+            var loadTemplate = function () {
+                var templateStr = $("#template").html();
+                var templateVdom = $(templateStr);
+                return templateVdom;
+            }; // loadTemplate end
+
+            var modifyTemplate = function (data) {
+                var template = loadTemplate();
+                $(".getFname", template).text(data.first);
+                $(".getLname", template).text(data.last);
+                $(".getJersey", template).text(data.jersey);
+                $(".getPosition", template).text(data.position);
+                $(".getPosition1", template).text(data.position1);
+                $("#btnDelete", template).on("click", sabio.page.templateDeleteButton); // Delete the template one at a time.
+                $(".box2").append(template);
+            };
+            modifyTemplate(data);
+        };
+        //fillTemplate End.
+
+        // templateDeleteButton Start.
+        sabio.page.templateDeleteButton = function () {
+            $(this).closest("#row").remove();
+        };
+        // templateDeleteButton End.
+
+    </script>
+    <!--Create a Template-->
+    <script type="text/html" id="template">
+        <div class="row newForm" id="row">
+            <div class="comments-form col-md-8 col-sm-8" id="comments-form">
+                <h2 class="title">Player</h2>
+                <a class="thumbnail " href="register.html">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Pirates_21RC.png" alt="50 * 40">
+                    </a>
+
+                <div id="outPut">
+                    <ul class="unorderList">
+                        <li><span class="getFname"></span> <span class="getLname"> #<span class="getJersey"></span></span></li>
+                        <li>Position : <span class="getPosition"></span> </li>
+                        <li>Batting Style : <span class="getPosition1"></span> </li>
+                    </ul>
+                    <input type="reset" class="btn btn-danger" id="btnDelete" value="Delete" >
+                </div>
+            </div>
+        </div>
+    </script>
+</body>
+
+</html>

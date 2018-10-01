@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sabio - Prework Exercises</title>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="shortcut icon" href="http://sabioapi2.azurewebsites.net/assets/img/Sabio_Logo_S_Swirl_57x57.png">
+    <link rel="icon" type="image/png" href="http://sabioapi2.azurewebsites.net/assets/img/Sabio_Logo_S_Swirl_57x57.png" />
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <link href="http://sabioapi2.azurewebsites.net/assets/css/ct-paper.css" rel="stylesheet" />
+    <link href="http://sabioapi2.azurewebsites.net/assets/css/demo.css" rel="stylesheet" />
+    <link href="http://sabioapi2.azurewebsites.net/assets/css/examples.css" rel="stylesheet" />
+    <link href="http://sabioapi2.azurewebsites.net/Content/bootstrap.css" rel="stylesheet" />
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link href="http://sabioapi2.azurewebsites.net/Content/jasmine/jasmine.css" rel="stylesheet" />
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs.min.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+    <nav class="navbar section-light-blue" role="navigation-demo" id="demo-navbar">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="https://sabio.la/">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <img src="http://sabioapi2.azurewebsites.net/assets/img/sabio_logo.png">
+                        </div>
+                        <div class="brand">
+                            Sabio Lab
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <button href="#" class="dropdown-toggle btn btn-neutral btn-simple" data-toggle="dropdown">
+                            Homework
+                            <b class="caret"></b>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li class="dropdown-header">JavaScript exercises</li>
+                            <li>
+                                <a href="http://sabioapi2.azurewebsites.net/labs/function-scope">Function Scope</a>
+                            </li>
+                            <li>
+                                <a href="http://sabioapi2.azurewebsites.net/labs/sum-function">Function Sum</a>
+                            </li>
+                            <li>
+                                <a href="http://sabioapi2.azurewebsites.net/labs/add-properties">Add Properties</a>
+                            </li>
+                            <li>
+                                <a href="http://sabioapi2.azurewebsites.net/labs/find-numbers">Find Numbers</a>
+                            </li>
+                            <li>
+                                <a href="http://sabioapi2.azurewebsites.net/labs/remove-letters">Remove Letters</a>
+                            </li>
+                            <li>
+                                <a href="http://sabioapi2.azurewebsites.net/labs/conditional-statements">Conditional Statements</a>
+                            </li>
+                            <li class="dropdown-header">Optional exercises</li>
+                            <li>
+                                <a href="http://sabioapi2.azurewebsites.net/labs/calculator">Calculator</a>
+                            </li>
+                            <li>
+                                <a href="http://sabioapi2.azurewebsites.net/labs/reverse">Reverse Strings and Arrays</a>
+                            </li>
+                            <li>
+                                <a href="http://sabioapi2.azurewebsites.net/labs/sort-filter">Sort and Filter</a>
+                            </li>
+                            <li>
+                                <a href="http://sabioapi2.azurewebsites.net/labs/calculate-stats">Stats</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="http://sabioapi2.azurewebsites.net/labs/tutorial" class="btn btn-neutral btn-simple">Tutorial</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-->
+    </nav>
+
+
+
+    <div>
+
+
+
+
+        <div class="main">
+            <div class="section">
+                <div class="container">
+                    <div class="tim-title">
+                        <h1>Calculator</h1>
+                        <div class="row tim-row">
+                            <h3 class="text-center">Instructions</h3>
+                            <legend></legend>
+                            <div class="col-md-8 col-md-offset-2">
+                                <ol>
+                                    <li>
+                                        Open the console in the browser and run the test
+                                        <span class="text-info">sabioTester('calculator')</span>. You will now see the specs you need to test for.
+                                        Use this function to perform tests.
+                                    </li>
+                                    <li>
+                                        Create an object called
+                                        <span class="text-info">calculator</span>.
+                                    </li>
+                                    <li>
+                                        Add a property called
+                                        <span class="text-info">errorMsg</span>. Set the value of the property
+                                        <span class="text-info">errorMsg</span> to the string
+                                        <span class="text-info">'Please enter 2 numbers'</span>.
+                                    </li>
+                                    <li>
+                                        <span class="text-info">Add:</span> add a property called
+                                        <span class="text-info">add</span>. Set the value of the property to be a function.
+                                        <ul>
+                                            <li>
+                                                This function should take two parameters. It should check if the parameters are
+                                                <span class="text-italic">numbers</span>
+                                                (remember to check for nulls, undefined, etc).
+                                            </li>
+                                            <li>
+                                                If the parameters are not numbers it should
+                                                <span class="text-italic">return</span> the
+                                                <span class="text-info">errorMsg</span>.
+                                            </li>
+                                            <li>
+                                                If the parameters are numbers the
+                                                <span class="text-info">add</span> method should
+                                                <span class="text-italic">return</span>
+                                                the sum of both numbers.
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="text-info">Subtract:</span> add a property called
+                                        <span class="text-info">subtract</span>. Set the value of the property to be a function.
+                                        <ul>
+                                            <li>
+                                                This function should take two parameters. It should check if the parameters are
+                                                <span class="text-italic">numbers</span>
+                                                (remember to check for nulls, undefined, etc).
+                                            </li>
+                                            <li>
+                                                If the parameters are not numbers it should
+                                                <span class="text-italic">return</span> the
+                                                <span class="text-info">errorMsg</span>.
+                                            </li>
+                                            <li>
+                                                If the parameters are numbers the
+                                                <span class="text-info">subtract</span> method should
+                                                <span class="text-italic">return</span>
+                                                the subtraction of the first by the second parameter.
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="text-info">Multiply:</span> add a property called
+                                        <span class="text-info">multiply</span>. Set the value of the property to be a function.
+                                        <ul>
+                                            <li>
+                                                This function should take two parameters. It should check if the parameters are
+                                                <span class="text-italic">numbers</span>
+                                                (remember to check for nulls, undefined, etc).
+                                            </li>
+                                            <li>
+                                                If the parameters are not numbers it should
+                                                <span class="text-italic">return</span> the
+                                                <span class="text-info">errorMsg</span>.
+                                            </li>
+                                            <li>
+                                                If the parameters are numbers the
+                                                <span class="text-info">multiply</span> method should
+                                                <span class="text-italic">return</span>
+                                                the multiplication of both numbers.
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="text-info">Divide:</span> add a property called
+                                        <span class="text-info">divide</span>. Set the value of the property to be a function.
+                                        <ul>
+                                            <li>
+                                                This function should take two parameters. It should check if the parameters are
+                                                <span class="text-italic">numbers</span>
+                                                (remember to check for nulls, undefined, etc).
+                                            </li>
+                                            <li>
+                                                If the parameters are not numbers it should
+                                                <span class="text-italic">return</span> the
+                                                <span class="text-info">errorMsg</span>.
+                                            </li>
+                                            <li>
+                                                If the second parameter is
+                                                <span class="text-info">0</span> then it should
+                                                <span class="text-italic">return</span>
+                                                the message
+                                                <span class="text-info">'Divide by zero error'</span>.
+                                            </li>
+                                            <li>
+                                                If the parameters are numbers the
+                                                <span class="text-info">divide</span> method should
+                                                <span class="text-italic">return</span>
+                                                the division of the first by the second.
+                                            </li>
+                                        </ul>
+                                    </li>
+
+
+                                </ol>
+                                <div class="example">
+                                    <h5 class="text-info">Examples:</h5>
+                                    <ul>
+                                        <li>
+                                            If we pass the values
+                                            <span class="text-info">2.1</span> and
+                                            <span class="text-info">4.1</span> to
+                                            <span class="text-info">calculator.add</span> it should return:
+                                            <span class="text-info">6.2</span>.
+                                        </li>
+                                        <li>
+                                            If we pass the values
+                                            <span class="text-info">5</span> and
+                                            <span class="text-info">2.5</span> to
+                                            <span class="text-info">calculator.subtract</span> it should return:
+                                            <span class="text-info">2.5</span>.
+                                        </li>
+                                        <li>
+                                            If we pass the values
+                                            <span class="text-info">10</span> and
+                                            <span class="text-info">3</span> to
+                                            <span class="text-info">calculator.multiply</span> it should return:
+                                            <span class="text-info">30</span>.
+                                        </li>
+                                        <li>
+                                            If we pass the values
+                                            <span class="text-info">20</span> and
+                                            <span class="text-info">2</span> to
+                                            <span class="text-info">calculator.divide</span> it should return:
+                                            <span class="text-info">10</span>.
+                                        </li>
+                                        <li>
+                                            If we pass the values
+                                            <span class="text-info">30</span> and
+                                            <span class="text-info">"hi"</span> to any method it should return:
+                                            <span class="text-info">'Please enter 2 numbers'</span>.
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <!-- jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <!-- jasmine -->
+    <script src="http://sabioapi2.azurewebsites.net/Scripts/jasmine/jasmine.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/Scripts/jasmine/jasmine-html.js"></script>
+
+    <script src="http://sabioapi2.azurewebsites.net/Scripts/jasmine/boot.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/Scripts/jasmine/jasmine-jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <!--  Plugins -->
+    <script src="http://sabioapi2.azurewebsites.net/assets/js/ct-paper-checkbox.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/assets/js/ct-paper-radio.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/assets/js/bootstrap-select.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/assets/js/bootstrap-datepicker.js"></script>
+
+    <script src="http://sabioapi2.azurewebsites.net/assets/js/ct-paper.js"></script>
+
+    <!--bootstrap-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <script src="http://sabioapi2.azurewebsites.net/Scripts/labTests/sabio.tests.logging.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad();
+        $(function () {
+
+            $.getScript("/Scripts/jasmine/jasmine-matchers.js");
+            window.setTimeout(function () { console.clear(); }, 300);
+
+        });
+    </script>
+
+
+    <!--specs-->
+
+    <script src="http://sabioapi2.azurewebsites.net/Scripts/labTests/calculator.spec.js"></script>
+
+
+    <!--Write your scripts below-->
+    <script>
+        sabio.page.isNumber = function (x) {
+            if (Number.isInteger(x)) {
+                return x;
+            }
+        }
+        var calculator =
+        {
+            errorMsg: 'Please enter 2 numbers',
+            add: (a, b) => {
+                if (sabio.page.isNumber(a) && sabio.page.isNumber(b)) {
+                    return a + b;
+                }
+                else {
+                    return calculator.errorMsg;
+                }
+            },
+            subtract: (c, d) => {
+                if (sabio.page.isNumber(c) && sabio.page.isNumber(d)) {
+                    return c - d;
+                }
+                else {
+                    return calculator.errorMsg
+                }
+            },
+            divide: (e, f) => {
+                if (sabio.page.isNumber(e) && sabio.page.isNumber(f)) {
+                    return e / f;
+                }
+                else if (f == 0) {
+                    return "Divide by zero error";
+                }
+                else {
+                    return calculator.errorMsg;
+                }
+            },
+            multiply: (h, g) => {
+                if (sabio.page.isNumber(h) && sabio.page.isNumber(g)) {
+                    return h * g;
+                }
+                else {
+                    return calculator.errorMsg;
+                }
+
+            }
+        }
+        calculator.add();
+        calculator.subtract();
+        calculator.divide();
+        calculator.multiply();
+    </script>
+
+
+
+</body>
+
+</html>

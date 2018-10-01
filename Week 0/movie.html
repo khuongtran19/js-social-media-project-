@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Movie Search</title>
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    <style>
+        .container {
+            align-content: "center";
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Movie Database Search</h1>
+        <p>Movie Title:</p>
+        <input type="text" id="movie">
+        <button id="btn-search-movie">Search</button>
+        <p>IMDb ID search:</p>
+        <input type="text" id="imdb">
+        <button id="btn-search-imdb">Search</button>
+
+        <div class="landing"></div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <!-- All your code goes below here-->
+    <script>
+        sabio.page.startUp = () => {
+            $('#btn-search-movie').on('click', sabio.page.getMoviesByName);
+            $('#btn-search-imdb').on('click', sabio.page.getMovieById);
+            $('.landing').on('click', '.btnModal', sabio.page.handlers.getMovieByIdModal);
+        }
+        sabio.page.onGetMovieSuccess = function (data, textStatus, XHR) {
+            sabio.page.displayListByName(data.Search);
+            console.log("getAll", data.Search);
+        }
+        sabio.page.onError = function (XHR, textStatus, error) {
+            console.log(XHR);
+        }
+        sabio.page.onGetMovieByIdSuccess = function (data) {
+            sabio.page.displayListById(data);
+            console.log("getAllbyID", data);
+        }
+        sabio.page.displayListById = function (data) {
+            var template = $($("#template").html());
+            template.find('.title').text(data.Title);
+            template.find('img').attr('src', data.Poster);
+            $(".landing").append(template);
+        }
+        sabio.page.handlers.getMovieByIdModal = function (evt) {
+            sabio.page.currentId = $(this).closest(".movie").prop("idTemplate");
+            sabio.page.getMovieByIdModal(sabio.page.currentId);
+            evt.preventDefault();
+        }
+        sabio.page.displayMovieModal = function (data) {
+            $('.titleModal').text(data.Title);
+            $('.directorModal').text(data.Director);
+            $('.yearModal').text(data.Year);
+            $('.avgModal').text(data.Ratings[1].Value);
+            $('.plotModal').text(data.Plot);
+            let trailerMovie = (data.Title);
+            sabio.page.getMovieTrailerById(trailerMovie);
+        }
+        sabio.page.displayListByName = function (list) {
+            for (var i = 0; i < list.length; i++) {
+                var template = $($("#template").html());
+                template.find(".title").text(list[i].Title);
+                template.find('img').attr('src', list[i].Poster);
+                template.prop("idTemplate", list[i].imdbID);
+                $(".landing").append(template);
+            }
+        }
+        sabio.page.getMovieByIdModal = (idModal) => {
+            var url = "http://www.omdbapi.com/?apikey=f87f9cf2&i=" + idModal;
+            var settings = {
+                success: sabio.page.displayMovieModal,
+                error: sabio.page.onError,
+                type: "GET",
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.getMovieById = () => {
+            let movieId = $("#imdb").val();
+            var url = "http://www.omdbapi.com/?apikey=f87f9cf2&i=" + movieId;
+            var settings = {
+                success: sabio.page.onGetMovieByIdSuccess,
+                error: sabio.page.onError,
+                type: "GET",
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.getMoviesByName = () => {
+            let movieName = $("#movie").val();
+            var url = "http://www.omdbapi.com/?apikey=f87f9cf2&s=" + movieName;
+            var settings = {
+                success: sabio.page.onGetMovieSuccess,
+                error: sabio.page.onError,
+                type: "GET",
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.getMovieTrailerById = (title) => {
+            let url = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + title + "+trailer&key=AIzaSyCNbwquXhuvgE6OU-DAoA2ivX0hcrTdX7s";
+            const settings = {
+                success: sabio.page.movieTrailer
+                , error: sabio.page.ajaxError
+                , type: "GET"
+            };
+            $.ajax(url, settings);
+        };
+        sabio.page.movieTrailer = (data) => {
+            let trailerLink = "https://www.youtube.com/embed/";
+            console.log("Get Movie Trailer", data);
+            for (let i = 0; i < 1; i++) {
+                $('.iframeModal').attr('src', trailerLink + data.items[i].id.videoId);
+            }
+        };
+    </script>
+    <script type="text/html" id="template">
+        <div class="movie col-md-3">
+                <table class="table table-bordered">
+                    <thead>
+                        <th><img src="" alt="" class="btnModal" data-toggle="modal" data-target="#exampleModal"></th>
+                    </thead>
+                    <tbody>
+                        <th><p class="title" align="center"></p></th>
+                    </tbody>
+                </table>
+        </div>
+    </script>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <iframe class="iframeModal"></iframe>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="exampleModalLabel">Title :
+                        <span class="titleModal"></span>
+                    </h3>
+                    <li>Director:
+                        <span class="directorModal"></span>
+                    </li>
+                    <li>Year:
+                        <span class="yearModal"></span>
+                    </li>
+                    <li>Rotten Tomato Rating:
+                        <span class="avgModal"></span>
+                    </li>
+                    <li>Plot:
+                        <span class="plotModal"></span>
+                    </li>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

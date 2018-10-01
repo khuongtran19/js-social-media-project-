@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Register</title>
+</head>
+
+<body>
+    <h1>Register</h1>
+    <form>
+        <p id="name">Name: </p>
+        <input id="nameinput" type="text" placeholder="Enter your name" maxlength="10" />
+        <p class="blue">Email: </p>
+        <input id="emailinput" type="email" placeholder="Enter your email" />
+        <p>Password: </p>
+        <input id="passwordinput" type="password" placeholder="Enter your password" />
+        <p class="blue">Age: </p>
+        <input id="ageinput" type="number" placeholder="Enter your age" />
+        <p></p>
+        <input type="button" value="Register Now" />
+        <br/>
+        <input type="submit" value="Register" onclick="input();" />
+        <br/>
+        <input type="reset" value="cancel" />
+
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        function hello() {
+            console.log("Good Evening");
+            console.log("Today is Thrusday");
+        };
+        function readdata() {
+            var name = $("#nameinput").val();
+            var email = $("#emailinput").val();
+            var password = $("#passwordinput").val();
+            var age = $("#ageinput").val();
+            console.log(name, email, password, age);
+        };
+        $("#btnRegister").on("click mouseover", readdata);
+    </script>
+</body>
+
+</html>

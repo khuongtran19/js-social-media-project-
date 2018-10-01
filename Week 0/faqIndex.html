@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>My FAQs Index Page</title>
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    </style>
+</head>
+
+<body>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+    <!-- All your code goes below here-->
+    <h1>FAQs Index</h1>
+    <select id="category" class="form-control input-xlarge" name="category">
+    </select>
+    <div id="landing"></div>
+    <script>
+        sabio.page.startUp = () => {
+            sabio.page.getfaqCategory();
+        }
+        sabio.page.getfaqCategory = () => {
+            let url = "https://pacoima-ypi.azurewebsites.net/api/faqcategories";
+            let settings = {
+                cache: false,
+                contentType: "application/x-www-form-urlencoded",
+                dataType: 'json',
+                success: sabio.page.faqCategoryId,
+                error: sabio.page.onError,
+                type: "GET",
+                xhrFields: {
+                    withCredentials: true
+                },
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.faqCategoryId = (data) => {
+            for (var i = 0; i < data.items.length; i++) {
+                let option = $('#category').append("<option value=" + data.items[i].id + ">" + data.items[i].name + "</option>");
+            }
+        }
+        sabio.page.getFaqs = () => {
+            let url = "https://pacoima-ypi.azurewebsites.net/api/faqs/user"
+            let settings = {
+                cache: false,
+                contentType: "application/x-www-form-urlencoded",
+                dataType: 'json',
+                success: sabio.page.getEmail,
+                error: sabio.page.onError,
+                type: "GET",
+                xhrFields: {
+                    withCredentials: true
+                },
+            }
+        }
+        sabio.page.checkCategory = (data) => {
+            for (var i = 0; i < data.items.length; i++) {
+                var template = $($('#template').html());
+                template.find('.question').text(data.items[i].question);
+                template.find('.answer').text(data.items[i].answer);
+                $('#landing').append(template);
+            }
+        }
+    </script>
+    <script type="text/html" id="template">
+        <div class="user col-md-4">
+            <li>Question: <span class="question"></span></li>
+            <li>Answer: <span class="answer"></span></li>
+            <button class="btn-primary edit">Edit</button>
+            <button class="btn-danger delete">Delete</button>
+        </div>
+    </script>
+</body>

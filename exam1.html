@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">First Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="fName" placeholder="First Name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Last Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="lName" placeholder="Last Name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Jersey #</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="jersey" placeholder="Jersey Number">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Position</label>
+            <div class="col-sm-10">
+                <!--<input type="password" class="form-control" id="position" >-->
+                <select id="position" class="form-control input-xlarge">
+                    <option value="" selected>Please Select</option>
+                    <option value="P">P</option>
+                    <option value="C">C</option>
+                    <option value="1B">1B</option>
+                    <option value="2B">2B</option>
+                    <option value="3B">3B</option>
+                    <option value="SS">SS</option>
+                    <option value="CF">CF</option>
+                    <option value="LF">LF</option>
+                    <option value="RF">RF</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Batting Style</label>
+            <div class="col-sm-10">
+                <select id="position" class="form-control input-xlarge">
+                    <option value="" selected>Please Select</option>
+                    <option value="LH">Left</option>
+                    <option value="RH">Right</option>
+                    <option value="SH">Switch</option>
+
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary" id="lineUpBtn">Add to Line-Up</button>
+            </div>
+        </div>
+    </form>
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <script type="text/javascript">
+        sabio.page.startUp = function () {
+            sabio.page.fillTemplate();
+            $("#lineUpBtn").on('click', sabio.page.handlers.fillTemplate);
+        };
+        sabio.page.fillTemplate = function () {
+            var loadTemplate = function () {
+                var templateStr = $("#template").html();
+                var templateVdom = $(templateStr);
+                return templateVdom;
+            }; // loadTemplate end
+
+            var modifyTemplate = function (data) {
+                var template = loadTemplate();
+                $(".Name", template).text(data.fName);
+                // template.find(".media-heading").text(data.title);  alternate
+                $(".Last", template).text(data.lName);
+                $(".Jersey", template).text(data.jersey);
+                $(".Position", template).text(data.position);
+                $(".Batting", template).text(data.position);
+                $("body").append(template);
+
+            };
+            for (var i = 0; i < player.length; i++) {
+                modifyTemplate(player[i]);
+            }
+        };
+    </script>
+    <script type="text/html" id="template">
+    <div class="row newForm">
+        <div class="comments-form col-md-6">
+            <form>
+                    <div class="form-group">
+                            <label>First Name: </label>
+                            <p class="Name"></p>
+                    </div>
+                    <div class="form-group">
+                            <label>Last Name: </label>
+                            <p class="Last"></p>
+                    </div><div class="form-group">
+                            <label>Jersey: </label>
+                            <p class="Jersey"></p>
+                    </div><div class="form-group">
+                            <label>Position: </label>
+                            <p class="Position"></p>
+                    </div><div class="form-group">
+                            <label>Batting Style: </label>
+                            <p class="Batting"></p>
+                    </div>
+                    </form>
+                    
+        </div>
+    </div>
+</div>
+</script>
+</body>
+
+</html>

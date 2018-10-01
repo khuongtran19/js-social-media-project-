@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <script>
+        sabio.page.startUp = function () {
+            sabio.page.fillTemplate();
+        };
+        sabio.page.fillTemplate = function () {
+            var loadTemplate = function () {
+                var templateVdom = $($("#template").html());
+                return templateVdom;
+            };
+
+            var modifyTemplate = function (data) {
+                var template = loadTemplate();
+                $(".band", template).text(data);
+                $(".container").append(template);
+            };
+            for (var i = 0; i < bands.length; i++) {
+                modifyTemplate("My #" + (i + 1) + " band is " + bands[i]);
+            };
+            for (var j = 0; j < bands.length; j++) {
+                if (j == 0) {
+                    modifyTemplate("My " + (j + 1) + "st favorite band is " + bands[j]);
+                }
+                else if (j == 1) {
+                    modifyTemplate("My " + (j + 1) + "nd favorite band is " + bands[j]);
+                }
+                else if (j == 2) {
+                    modifyTemplate("My " + (j + 1) + "rd favorite band is " + bands[j]);
+                }
+                else {
+                    modifyTemplate("My " + (j + 1) + "th favorite band is " + bands[j]);
+                }
+            };
+        };
+
+        var bands = ["Prince and Revolution",
+            "Michael Franti and Spearhead",
+            "Ben Harper and the Innocent Criminals",
+            "The Visionaries",
+            "Atmosphere"]
+
+    </script>
+    <script type="text/html" id="template">
+        <div class="well ">
+            <p class="band"><p>      
+    </div>
+    </script>
+</body>
+
+</html>

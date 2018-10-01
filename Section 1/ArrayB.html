@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <script>
+        var books = [
+            {
+                "title": "Harry Potter",
+                "author": "J.K Rowling",
+                "alreadyRead": true
+            },
+            {
+                "title": "Ready Player One",
+                "author": "Ernest Cline",
+                "alreadyRead": true
+            },
+            {
+                "title": "Rich Dad Poor Dad",
+                "author": "Robert Kiyosaki & Sharon Lechter",
+                "alreadyRead": false
+            },
+            {
+                "title": "The Lord of The Ring",
+                "author": "J.R.R. Tolkien",
+                "alreadyRead": true
+            },
+            {
+                "title": "Game of Throne",
+                "author": "Geogre R. R. Martin",
+                "alreadyRead": false
+            }
+        ]
+        sabio.page.startUp = function () {
+            sabio.page.fillTemplate();
+        };
+        sabio.page.fillTemplate = function () {
+            var loadTemplate = function () {
+                var templateVdom = $($("#template").html());
+                return templateVdom;
+            };
+
+            var modifyTemplate = function (data) {
+                var template = loadTemplate();
+                $(".book", template).text(data);
+                $(".container").append(template);
+            };
+            for (var i = 0; i < books.length; i++) {
+                if (books[i].alreadyRead === true) {
+                    modifyTemplate("I already read " + books[i].title + " by " + books[i].author);
+                }
+                else {
+                    modifyTemplate("I still need to read " + books[i].title + " by " + books[i].author);
+                }
+            };
+        };
+    </script>
+    <script type="text/html" id="template">
+        <div class="row books">
+            <p class="book"></p>
+    </script>
+
+</body>
+
+</html>

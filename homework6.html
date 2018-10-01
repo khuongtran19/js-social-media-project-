@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <script>
+        sabio.page.empty = [];
+        console.log(sabio.page.empty.length);
+        sabio.page.myNumbers = [1, 3, 4, 6];
+        sabio.page.pets = ['Fido', 'Chucho', 'Rocky', 'Drago', 'Precious'];
+        console.log(sabio.page.pets);
+        console.log(sabio.page.pets[1]);
+        console.log(sabio.page.pets[3]);
+        sabio.page.colors = ['Red', 'White', 'Black', 'Blue'];
+        sabio.page.colors.push('Yellow');
+        sabio.page.colors.unshift('Green');
+        console.log(sabio.page.colors);
+        var array1 = sabio.page.pets;
+        var array2 = sabio.page.colors;
+        sabio.page.combine = function (array1, array2) {
+            return array1.concat(array2);
+        }
+        console.log(sabio.page.combine(array1, array2));
+        sabio.page.removeFirst = function (array) {
+            return array.shift();
+        }
+        sabio.page.removeLast = function (array) {
+            return array.pop();
+        }
+        sabio.page.removeThird = function (array) {
+            return array.splice();
+        }
+        sabio.page.calledInLoop = function (number) {
+            console.log(number);
+        }
+        sabio.page.loopThrough = function (num) {
+            for (var i = 0; i < num.length; i++) {
+                sabio.page.calledInLoop(num[i]);
+            }
+        }
+        sabio.page.loopThrough(array2)
+    </script>
+</body>
+
+</html>

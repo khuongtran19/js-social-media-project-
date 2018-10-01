@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .well {
+
+
+            width: 300px;
+            position: relative;
+            float: left;
+            margin-left: 20px;
+            margin-top: 50px;
+        }
+
+        li {
+            list-style-type: none;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <script type="text/javascript">
+        var person = [
+            {
+                "firstname": "Juana",
+                "lastname": "Doe",
+                "age": 24,
+                "streetaddress": "123 Main St",
+                "city": "Culver City",
+                "state": "CA",
+                "zip": "92340"
+            },
+            {
+                "firstname": "Juan",
+                "lastname": "Doe",
+                "age": 26,
+                "streetaddress": "1234 Main St",
+                "city": "Culver City",
+                "state": "CA",
+                "zip": "92340"
+            }
+        ]
+        sabio.page.startUp = function () {
+            sabio.page.fillTemplate();
+        };
+        sabio.page.fillTemplate = function () {
+            var loadTemplate = function () {
+                var templateVdom = $($("#template").html());
+                return templateVdom;
+            };
+
+            var modifyTemplate = function (data) {
+                var template = loadTemplate();
+                $(".firstName", template).text(data.firstname);
+                $(".lastName", template).text(data.lastname);
+                $(".age", template).text(data.age);
+                $(".streetAddress", template).text(data.streetaddress);
+                $(".city", template).text(data.city);
+                $(".state", template).text(data.state);
+                $(".zip", template).text(data.zip);
+                $("body").append(template);
+            };
+            for (var i = 0; i < person.length; i++) {
+                modifyTemplate(person[i]);
+            };
+        };
+    </script>
+    <script type="text/html" id="template">
+        <div class='well'>
+            <ul>
+                <li>First Name: <span class="firstName"></span> </li>
+                <li>Last Name: <span class="lastName"></span> </li>
+                <li>Age:<span class="age"></span> </li>
+                <li>Street: <span class="streetAddress"></span> </li>
+                <li>City: <span class="city"></span> </li>
+                <li>State: <span class="state"></span></li>
+                <li>ZIP: <span class="zip"></zip></li>
+            </ul>
+        </div>
+</script>
+</body>
+
+</html>

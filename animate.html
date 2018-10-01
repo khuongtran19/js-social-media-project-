@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            position: absolute;
+            height: 100px;
+            width: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div>Box</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+        var animateBox = function () {
+            var option = {
+                top: "500px",
+                left: "500px",
+                height: "10px",
+                width: "10px"
+            };
+            $("div").animate(option, 3000);
+        }
+        function getP() {
+            var person = {};
+            person.fName = 'Hector';
+            person.lName = 'Arias';
+            person.salary = 50000;
+
+            return person;
+
+            getP2(person);
+        }
+
+
+        function getP2(name) {
+
+            giveRaise(name);
+
+        }
+
+
+        function giveRaise(emp) {
+            emp.fName;
+            emp.salary * 2;
+
+        }
+
+        var p = getP();
+
+        giveRaise(p);
+    </script>
+</body>
+
+</html>

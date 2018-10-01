@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Task List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    .title {
+        text-align: center;
+    }
+
+    #template {
+        text-align: center;
+    }
+
+    .row .newForm {
+        border: 1px solid black;
+        margin: 10px;
+    }
+
+    .btn-danger {
+        float: right;
+        margin-left: 5px;
+    }
+
+    .btn-default {
+        float: right;
+        margin-left: 5px;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4"></div>
+            <div class="col-lg-4 col-md-4">
+                <div class="box1">
+                    <h1 class="title">Task List</h1>
+                    <form>
+                        <div class="form-group">
+                            <label> Task :</label>
+                            <input type="text" class="form-control" id="inputTask" placeholder="Enter here...">
+                        </div>
+                        <div class="form-group">
+                            <label> Priority</label>
+                            <select class="form-control" id="inputPriority">
+                                <option selected>Pick the option</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" id="cmdAddTask">Add Task</button>
+                    </form>
+                </div>
+                <div class="box2">
+
+
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4"></div>
+        </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+
+    <script type="text/javascript">
+
+        // startUp Start.
+        sabio.page.startUp = function () {
+            console.log("Ready to load");
+
+            $("#cmdAddTask").on("click", sabio.page.handlers.submitForm);
+
+
+        };
+        // startUp End.
+
+        // submitForm Start.
+        sabio.page.handlers.submitForm = function (evt) {
+            evt.preventDefault();
+            var data = sabio.page.transferFormToTemplate();
+            sabio.page.clearForm();
+            sabio.page.fillTemplate(data);
+
+        };
+        // submitForm End.
+
+        // clearForm Start.
+        sabio.page.clearForm = function () {
+            $("form")[0].reset();
+        };
+        // clearForm End.
+
+        // readFormData Start.
+        sabio.page.transferFormToTemplate = function () {
+            var task = $("#inputTask").val();
+            var priority = $("#inputPriority :selected").val();
+            // Check on attr
+            var outPut = {
+                task: task,
+                priority: priority
+            };
+            return outPut;
+        };
+        // readFormData End.
+
+        // fillTemplate Start.
+        sabio.page.fillTemplate = function (data) {
+            var loadTemplate = function () {
+                var templateStr = $("#template").html();
+                var templateVdom = $(templateStr);
+                return templateVdom;
+            }; // loadTemplate end
+
+            var modifyTemplate = function (data) {
+                var template = loadTemplate();
+                $(".getTask", template).text(data.task);
+                // template.find(".media-heading").text(data.title);  alternate
+                $(".getPriority", template).text(data.priority);
+                $("#btnDelete", template).on("click", sabio.page.templateDeleteButton); // Delete the template one at a time.
+                $(".box2").append(template);
+            };
+            modifyTemplate(data);
+        };
+        //fillTemplate End.
+
+        // templateDeleteButton Start.
+        sabio.page.templateDeleteButton = function () {
+            $(this).closest("#row").remove();
+        };
+        // templateDeleteButton End.
+
+        // edit Start.
+
+        sabio.page.updateButton = function () {
+            $("#cmdAddTask").text("Updated Task");
+
+
+        };
+
+    </script>
+    <!--Create a Template-->
+    <script type="text/html" id="template">
+        <div class="row newForm" id="row">
+            <div class="comments-form col-md-8 col-sm-8" id="comments-form">
+                <h2 class="title">Template</h2>
+                <div id="outPut">
+                    <ul class="unorderList">
+                        <li>Task : <span class="getTask"></span> </li>
+                        <li>Priority : <span class="getPriority"></span> </li>
+                    </ul>
+                    <input type="reset" class="btn btn-danger" id="btnDelete" value="Delete" >
+                    <input type="button" class="btn btn-default" id="btnEdit" value="Edit">
+                </div>
+            </div>
+        </div>
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Arrays B</title>
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .author {
+            padding: 20px;
+            margin: 20px;
+            border: solid black 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <!-- All your code goes below here-->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6" id="shippingFormContainer">
+                <div class="row">
+                    <form class="col-md-4" id="authorForm">
+                        <p>
+                            Title:
+                        </p>
+                        <input type="text" id="title" />
+                        <p>
+                            Content:
+                        </p>
+                        <input type="text" id="content" />
+                        <br>
+                        <input type="button" value="Submit" id="btnSubmit" />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="landing"></div>
+    </div>
+    <script>
+        sabio.page.startUp = function () {
+            sabio.page.getComments();
+            $("#btnSubmit").on('click', sabio.page.handlers.submitForm);
+            $("#landing").on('click', ".delete", sabio.page.handlers.deleteComment);
+            $("#landing").on('click', ".edit", sabio.page.handlers.getCommentById);
+        }
+
+        /* -----------------------HANDLERS------------------------------ */
+
+        sabio.page.handlers.submitForm = function () {
+            var comment = sabio.page.readFormData();
+            sabio.page.addComment(comment);
+        }
+        sabio.page.handlers.deleteComment = function () {
+            sabio.page.currentId = $(this).closest(".comment").prop("id");
+            sabio.page.deleteComment(sabio.page.currentId);
+        }
+        sabio.page.handlers.getCommentById = function () {
+            sabio.page.currentId = $(this).closest(".comment").prop("id");
+            sabio.page.getCommentById(sabio.page.currentId);
+        }
+
+        /* -----------------------Call Back Function---------------------------------- */
+
+        sabio.page.onAddCommentSuccess = function (data) {
+            console.log("post", data);
+            $("#commentForm")[0].reset();
+            $("#landing").empty();
+            sabio.page.getComment();
+        }
+        sabio.page.onGetCommentsSuccess = function (data, textStatus, XHR) {
+            console.log("getAll", data);
+            for (let i = 0; i < data.items.length; i++) {
+                var template = $($("#template").html());
+                template.find(".titleinput").text(data.items[i].title);
+                template.find(".contentinput").text(data.items[i].content);
+                template.prop("id", data.items[i].id);
+                $("#landing").append(template);
+            }
+        }
+        sabio.page.onDeleteCommentSuccess = function (date) {
+            $("#" + sabio.page.currentId).remove();
+            sabio.page.currentId = null;
+        }
+        sabio.page.onGetCommentByIdSuccess = function (data) {
+            $("#titleinput").val(data.item.title);
+            $("#contentinput").val(data.item.content);
+        }
+
+        /* -----------------------AJAX---------------------------------- */
+        sabio.page.getComments = function () {
+            var url = "http://sabioapi2.azurewebsites.net/api/blogs/506366339/comments";
+            var settings = {
+                headers: {
+                    'SABIO-AUTH': 'U4TM3BMU5'
+                },
+                success: sabio.page.onGetCommentsSuccess,
+                error: sabio.page.onError,
+                type: "GET",
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.addComment = function (comment) {
+            var url = "http://sabioapi2.azurewebsites.net/api/comments";
+            var settings = {
+                headers: {
+                    'SABIO-AUTH': 'U4TM3BMU5'
+                },
+                success: sabio.page.onAddCommentSuccess,
+                error: sabio.page.onError,
+                type: "POST",
+                data: comment
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.deleteComment = function (id) {
+            var url = "http://sabioapi2.azurewebsites.net/api/comments/506366339";
+            var settings = {
+                headers: {
+                    'SABIO-AUTH': 'U4TM3BMU5'
+                },
+                success: sabio.page.onDeleteCommentSuccess,
+                error: sabio.page.onError,
+                type: "DELETE",
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.getCommentById = function (id) {
+            var url = "http://sabioapi2.azurewebsites.net/api/comments/506366339";
+            var settings = {
+                headers: {
+                    'SABIO-AUTH': 'U4TM3BMU5'
+                },
+                success: sabio.page.onGetCommentByIdSuccess,
+                error: sabio.page.onError,
+                type: "GET",
+            };
+            $.ajax(url, settings);
+        }
+        /* -----------------------Ultilities---------------------------------- */
+        sabio.page.readFormData = function () {
+            return {
+                title: "titleinput",
+                content: "contentinput",
+                userName: "user",
+                blogPostId: 4,
+                parentCommentId: 506366339
+            };
+        }
+
+    </script>
+    <script type="text/html" id="template">
+        <div class="comment col-md-4">
+            <p class="titleinput"></p>
+            <p class="contentinput"></p>
+            <button class="btn-primary edit">Edit</button>
+            <button class="btn-danger delete">Delete</button>
+        </div>
+    
+    </script>
+</body>
+
+</html>

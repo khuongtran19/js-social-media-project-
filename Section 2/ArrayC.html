@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <script>
+        var recipie = [
+            {
+                "title": "Pizza",
+                "serving": 4,
+                "ingredient": ["flour", "sauce", "cheese", "pepperoni"]
+            }
+        ]
+        sabio.page.activeReplyLink = null;
+        sabio.page.startUp = function () {
+            sabio.page.fillTemplate();
+            $("#add").on('click', sabio.page.handlers.addComment);
+        };
+        sabio.page.readFormData = function () {
+            var titleInput = $(".title").val();
+            var emailInput = $(".serving", activeForm).val();
+            var ingredientInput = $(".ingredient", activeForm).val();
+            var commentData = {
+                title: titleInput,
+                email: servingInput,
+                ingredient: ingredientInput
+            };
+            return commentData;
+        };
+        sabio.page.fillTemplate = function () {
+            var loadTemplate = function () {
+                var templateVdom = $($("#template").html());
+                return templateVdom;
+            };
+            var modifyTemplate = function (data) {
+                var template = loadTemplate();
+                $(".Title", template).text(data.title);
+                $(".Serving", template).text(data.serving);
+                $(".Ingredient", template).text(data.ingredient);
+                $(".container").append(template);
+            };
+            for (var i = 0; i < recipie.length; i++) {
+                modifyTemplate(recipie[i]);
+            }
+        };
+    </script>
+    <script type="text/html" id="template">
+        <div class="well">
+            <label>Title of Recipie:</label>
+            <p class="Title"></p>
+            <label>Servings:</label>
+            <p class="Serving"></p>
+            <label>Ingredient:</label>
+            <p class="Ingredient"></p>
+            <input type="text" id="ingredients">
+            <button type="submit" id="add">Add Ingredient</button> 
+        </div>
+    </script>
+</body>
+
+</html>

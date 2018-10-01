@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row newTaskForm" align="middle">
+            <div class="task">
+                <h1 class="title">Add Task</h1>
+                <form>
+                    <table>
+                        <tr>
+                            <td>Task</td>
+                            <td>
+                                <input type="text" placeholder="Task" id="taskadd">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Priority</td>
+                            <td>
+                                <select>
+                                    <option>Priority</option>
+                                    <option id="High">High</option>
+                                    <option id="Medium">Medium</option>
+                                    <option id="Low">Low</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <button type=" submit " class="btn btn-default " id="taskSubmit ">Add Task</button>
+                </form>
+            </div>
+        </div>
+        <div id="task-list " align="middle">
+            <h1>Task List</h1>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery.min.js "></script>
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js "></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js "></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js "></script>
+    <script type="text/javascript">
+        sabio.page.startUp = function () {
+            $("#taskSubmit").on('click', sabio.page.handlers.addTask);
+        };
+        sabio.page.handlers.addTask = function (evt) {
+            evt.preventDefault();
+            var data = sabio.page.readFormData();
+            sabio.page.modifyTemplate(data);
+        };
+        sabio.page.readFormData = function () {
+            var activeForm;
+            var taskInput = $(".cmt-title", activeForm).val();
+            var priorityInput = $(".cmt-email", activeForm).val();
+            var taskData = {
+                task: taskInput,
+                priority: priorityInput
+            };
+            return taskData;
+        };
+        sabio.page.loadTemplate = function () {
+            var templateStr = $("#template").html();
+            var templateVdom = $(templateStr);
+            return templateVdom;
+        };
+        sabio.page.modifyTemplate = function (data) {
+            var template = sabio.page.loadTemplate();
+            $(".tasklist", template).text(data.task);
+            $(".prioritylist", template).text(data.priority);
+        }
+    </script>
+    <script type="text/html " id="template ">
+        <div class="row newForm ">
+            <div class="comments-form col-md-6 ">
+                <ol class="orderList ">
+                    <li>Task: <span class="tasklist "></span> </li>
+                    <li>Priority:<span class="prioritylist "></span> </li>
+                </ol>
+                <button >
+            </div>
+        </div>
+    </script>
+</body>
+
+</html>

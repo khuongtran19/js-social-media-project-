@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Homework2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <h1>Car Registration</h1>
+    <form>
+        <p>Model</p>
+        <input id="model" type="text" placeholder="Enter your model" />
+        <p>Make</p>
+        <input id="make" type="text" placeholder="Make by" />
+        <p>Year</p>
+        <input id="year" type="number" placeholder="Year of vehicle" />
+        <p>VIN</p>
+        <input id="vin" type="text" placeholder="Enter your vehicle VIN" />
+        <p></p>
+        <input type="button" value="Register" id="btnRegister" />
+        <input type="reset" value="Cancel" id="resetitem" />
+
+    </form>
+    <div id="output">
+        <ul id="info">
+            <li class="modeloutput"></li>
+            <li class="makeoutput"></li>
+            <li class="yearoutput"></li>
+            <li class="vinoutput"></li>
+        </ul>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function readData() {
+            var model = $("#model").val();
+            var make = $("#make").val();
+            var year = $("#year").val();
+            var vin = $("#vin").val();
+            $(".modeloutput").text("Car model: " + model);
+            $(".makeoutput").text("Make by: " + make);
+            $(".yearoutput").text("Year: " + year);
+            $(".vinoutput").text("VIN: " + vin);
+
+            $(".modeloutput").show();
+            $(".makeoutput").show();
+            $(".yearoutput").show();
+            $(".vinoutput").show();
+            $("#model").val("");
+            $("#make").val("");
+            $("#year").val("");
+            $("#vin").val("");
+        }
+        $("#btnRegister").on("click", readData);
+        function hideCar() {
+
+            $(".modeloutput").hide();
+            $(".makeoutput").hide();
+            $(".yearoutput").hide();
+            $(".vinoutput").hide();
+        }
+        $("#resetitem").on("click", hideCar);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <ol id=ordered>
+        <li>item 1</li>
+        <li>item 2</li>
+        <li>item 3</li>
+        <li>item 4</li>
+        <li>item 5</li>
+        <li>item 6</li>
+        <li>item 7</li>
+        <li>item 8</li>
+        <li>item 9</li>
+        <li>item 10</li>
+    </ol>
+    <div id="target">
+
+    </div>
+    <div id="person">
+        <p id=name></p>
+        <p id=age></p>
+        <p id=company></p>
+        <p id=email></p>
+        <p id=phone></p>
+    </div>
+    <input type=button id=duplicate value=duplicate />
+    <input type=button id=remove value=remove />
+    <hr>
+    <div class="container">
+        <h3>Section 1</h3>
+        <div class="y">
+            <p class="x">
+                this is text 1
+            </p>
+            <p class="x">
+                change the color of this text
+            </p>
+            <p class="x">
+                this is text 3
+            </p>
+        </div>
+        <hr>
+        <h3>Section 2</h3>
+        <div class="y">
+            <p class="x">
+                this is text 1
+            </p>
+            <p class="x">
+                this is text 2
+            </p>
+            <p class="x">
+                change this text
+            </p>
+        </div>
+        <hr>
+        <h3>Section 3</h3>
+        <div class="y">
+            <p class="x">
+                read me to the console
+            </p>
+            <p class="x">
+                this is text 2
+            </p>
+            <p class="x">
+                this is text 3
+            </p>
+        </div>
+
+        <button id="traverseBtn">click me</button>
+
+    </div>
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <script type="text/javascript">
+        var change = function () {
+            $(".y").eq(0).find(".x").eq(1).css("color", "red")
+            $(".y").eq(1).find(".x").eq(2).text("Already change the text")
+            console.log($(".y").eq(2).find(".x").eq(0).text());
+        }
+        $("#traverseBtn").on('click', change);
+        var num = [];
+        for (var i = 1; i <= 10; i++) {
+            num.push(i)
+        }
+        console.log(num);
+        num.push(20);
+        console.log(num);
+        num.unshift(0);
+        console.log(num);
+        num.splice(5, 1);
+        num.splice(7, 1);
+        console.log(num);
+        for (var j = 0; j < num.length; j++) {
+            console.log(num[j]);
+        }
+        $(document).ready(function () {
+            $("#duplicate").click(function () {
+                $("#ordered").clone().appendTo("#target");
+            });
+        });
+        $(document).ready(function () {
+            $("#remove").click(function () {
+                $("#target").empty();
+            });
+        });
+        sabio.page.fillTemplate = function () {
+            var loadTemplate = function () {
+                var templateStr = $("#template").html();
+                var templateVdom = $(templateStr);
+                return templateVdom;
+            };
+
+            var modifyTemplate = function (data) {
+                var template = loadTemplate();
+                $(".Name", template).text(data.name);
+                $(".Age", template).text(data.age);
+                $(".Company", template).text(data.company);
+                $(".Email", template).text(data.email);
+                $(".Phone", template).text(data.phone);
+                $(".body").append(template);
+
+            };
+            for (var i = 0; i < people.length; i++) {
+                modifyTemplate(people[i]);
+            }
+        };
+        var people = [
+            {
+                "age": 24,
+                "name": "Jerry Hale",
+                "company": "PHOTOBIN",
+                "email": "jerryhale@photobin.com",
+                "phone": "+1 (980) 445-3351"
+            },
+            {
+                "age": 31,
+                "name": "Monique Dixon",
+                "company": "COMSTRUCT",
+                "email": "moniquedixon@comstruct.com",
+                "phone": "+1 (872) 497-3167"
+            },
+            {
+                "age": 37,
+                "name": "Joan Mccullough",
+                "company": "XYQAG",
+                "email": "joanmccullough@xyqag.com",
+                "phone": "+1 (933) 421-2529"
+            },
+            {
+                "age": 33,
+                "name": "Jacobs Mayer",
+                "company": "ISONUS",
+                "email": "jacobsmayer@isonus.com",
+                "phone": "+1 (818) 413-3992"
+            },
+            {
+                "age": 39,
+                "name": "Rosa Chandler",
+                "company": "SNACKTION",
+                "email": "rosachandler@snacktion.com",
+                "phone": "+1 (935) 474-2761"
+            },
+            {
+                "age": 26,
+                "name": "Crawford Mason",
+                "company": "NURPLEX",
+                "email": "crawfordmason@nurplex.com",
+                "phone": "+1 (890) 444-3896"
+            },
+            {
+                "age": 38,
+                "name": "Haney Carr",
+                "company": "KYAGORO",
+                "email": "haneycarr@kyagoro.com",
+                "phone": "+1 (920) 483-2898"
+            }
+        ]
+
+    </script>
+    <script type="text/html" id="template">
+        <div class="row newForm">
+            <div class="comments-form col-md-6">
+                <h2 class="title">Person</h2>
+                <ol class="orderList">
+                    <li>Name: <span class="Name"></span> </li>
+                    <li>Age:<span class="Age"></span> </li>
+                    <li>Company: <span class="Company"></span> </li>
+                    <li>Email: <span class="Email"></span> </li>
+                    <li>Phone: <span class="Phone"></span></li>
+                </ol>
+            </div>
+        </div>
+    </script>
+</body>
+
+</html>

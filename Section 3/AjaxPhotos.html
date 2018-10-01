@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Ajax Photos</title>
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .person {
+            padding: 20px;
+            margin: 20px;
+            border: solid black 1px;
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="landing">
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <!-- All your code goes below here-->
+
+    <script>
+
+        sabio.page.startUp = function () {
+            sabio.page.getPerson();
+        }
+
+        /* -----------------------HANDLERS---------------------------------- */
+
+        /* -----------------------CALLBACK FUNCTION---------------------------------- */
+        sabio.page.onGetPersonSuccess = function (data, textStatus, XHR) {
+            console.log("getAll", data);
+            for (let index = 0; index < data.item.pagedItems.length; index++) {
+                var template = $($('#template').html());
+                template.find('.first').text(data.item.pagedItems[index].name.first);
+                template.find('.last').text(data.item.pagedItems[index].name.last);
+                template.find('.title').text(data.item.pagedItems[index].name.title);
+                template.find('img').attr('src', data.item.pagedItems[index].picture.medium);
+                $('.landing').append(template);
+            }
+        }
+        sabio.page.onError = function (XHR, textStatus, error) {
+            console.log(XHR);
+        }
+
+        /* -----------------------AJAX---------------------------------- */
+        sabio.page.getPerson = function () {
+            var url = "http://sabioapi2.azurewebsites.net/api/people?pageIndex=1&pageSize=4";
+
+            var settings = {
+                headers: {
+                    'SABIO-AUTH': 'UBH6KEH7A'
+                },
+                success: sabio.page.onGetPersonSuccess,
+                error: sabio.page.onError,
+                type: "GET",
+            };
+
+            $.ajax(url, settings);
+        }
+
+        /* -----------------------MISC FUNCTIONS---------------------------------- */
+
+    </script>
+
+    <script type="text/html" id="template">
+        <div class="row">
+                <div class="col-md-4">
+                        <li>Title: <span class="title"></span></li>
+                        <li>First: <span class="first"></span></li>
+                        <li>Last: <span class="last"></span></li>
+                        <img src="" alt="">
+                </div>
+        </div>
+    </script>
+
+</body>
+
+</html>
