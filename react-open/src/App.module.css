@@ -1,0 +1,98 @@
+.box {
+    display: block;
+    justify-content: space-around;
+    padding: 25px;
+    border:1px solid black;
+    margin:0 auto;
+  }
+.page{
+  padding: 50px;
+}
+.topnav{
+  list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: black;
+}
+li {
+  float:left;
+}
+li .navtext{
+  display:block;
+  color:white;
+  text-align:center;
+  padding:10px 15px;
+  text-decoration: none;
+  font-weight: bold;
+}
+li .navtext:hover:not(.active){
+  background-color: green;
+}
+li .navtext span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+li .navtext span:after{
+  content:'\00bb';
+  position: absolute;
+  opacity:0;
+  top:0;
+  right:-20px;
+  transition:0.5s;
+}
+li .navtext:hover span{
+  padding-right:25px;
+}
+li .navtext:hover span:after{
+  opacity:1;
+  right:0;
+}
+.buttonwarning{
+  background-color: red;
+  border: none;
+  color:white;
+  padding:10px 15px;
+  text-align: center;
+  font-weight: bold;
+  opacity: 1;
+  float:right;
+  margin-top:5px;
+}
+.buttonwarning:hover{opacity: 0.8;}
+.buttonnormal{
+  background-color: green;
+  border: none;
+  color:white;
+  padding:10px 15px;
+  text-align: center;
+  display:inline-block;
+  font-weight: bold;
+  opacity: 1;
+}
+.buttonnormal:hover{opacity: 0.8;}
+legend{
+  font-weight: bold;
+  font-size: 200%;
+
+}
+.buttonlogout{background-color:green;
+  border: none;
+  color:white;
+  padding:10px 15px;
+  text-align: center;
+  display:inline-block;
+  font-weight: bold;
+  opacity: 1;
+}
+.buttonlogout:hover{opacity: 0.8;}
+fieldset{
+  border-radius: 5px;
+  width: 350px;
+  margin: auto;
+}
+.profile{
+  float:right;
+}

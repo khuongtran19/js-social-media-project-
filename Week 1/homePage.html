@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Home Page</title>
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    </style>
+</head>
+
+<body>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+    <!-- All your code goes below here-->
+    <div class="container">
+        <form class="userForm">
+                <button type="button" id="profile">My Profile</button>
+                <button type="button" id="blogs">Blogs</button>
+                <button type="button" id="techcomp">Tech Companies</button>
+                <button type="button" id="jobs">Jobs</button>
+                <button type="button" id="events">Events</button>
+            <p>Username:
+                <span id="username"></span>
+            </p>
+            <button type="button" id="btn-logout">Log out
+            </button>
+        </form>
+    </div>
+    <script>
+        sabio.page.startUp = () => {
+            sabio.page.onGetCurrentId();
+            $('#btn-logout').on('click', sabio.page.logout);
+        }
+        sabio.page.onError = (XHR, textStatus, error) => {
+            console.log(XHR);
+        }
+        sabio.page.getEmail = (data) => {
+            var email = (data.item.email);
+            var username = email.match(/^([^@]*)@/)[1];
+            $('#username').text(username);
+        }
+        sabio.page.getCurrentUser = (data) => {
+            var id = (data.item.actualUserId);
+            sabio.page.getUsername(id);
+        }
+        sabio.page.getUsername = (userid) => {
+            let url = "http://sabiobootcampapi.azurewebsites.net/api/users/" +userid;
+            let settings = {
+                cache: false,
+                contentType: "application/x-www-form-urlencoded",
+                dataType: 'json',
+                success: sabio.page.getEmail,
+                error: sabio.page.onError,
+                type: "GET",
+                xhrFields: {
+                    withCredentials: true
+                },
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.onGetCurrentId = () =>{
+            let url= "http://sabiobootcampapi.azurewebsites.net/api/tests/auth/current";
+            let settings = {
+                cache: false,
+                contentType:"application/x-www-form-urlencoded",
+                dataType: 'json',
+                success: sabio.page.getCurrentUser,
+                error: sabio.page.onError,
+                type: "GET",
+                xhrFields: {
+                    withCredentials: true
+                },
+            };
+            $.ajax(url, settings);
+        }
+        sabio.page.logout =()=>{
+            let url = "http://sabiobootcampapi.azurewebsites.net/api/users/logout";
+            let settings = {
+                cache: false,
+                contentType: "application/x-www-form-urlencoded",
+                dataType: 'json',
+                success: window.location.replace("http://localhost:5500/Week%201/Login.html"),
+                error: sabio.page.onError,
+                type: "GET",
+                xhrFields: {
+                    withCredentials: true
+                },
+            };
+            $.ajax(url, settings);
+            
+        }
+    </script>
+</body>
