@@ -1,9 +1,11 @@
 .box {
     display: block;
     justify-content: space-around;
-    padding: 25px;
-    border:1px solid black;
+    padding: 10px;
+    border:none;
     margin:0 auto;
+    border-radius: 10px;
+    background-color:white;
   }
 .page{
   padding: 50px;
@@ -28,6 +30,7 @@ li .navtext{
 }
 li .navtext:hover:not(.active){
   background-color: green;
+  color:white;
 }
 li .navtext span {
   cursor: pointer;
@@ -38,6 +41,7 @@ li .navtext span {
 li .navtext span:after{
   content:'\00bb';
   position: absolute;
+  color:white;
   opacity:0;
   top:0;
   right:-20px;
@@ -95,4 +99,66 @@ fieldset{
 }
 .profile{
   float:right;
+}
+.middle{
+  display:flex;
+  align-items:center;
+  justify-content: center;
+}
+.bold{
+  font-weight: bold;
+}
+section{
+  background-repeat:no-repeat;
+}
+.rows .row{
+  display: flex
+}
+.modal-container {
+  position: relative;
+}
+.modal-container .modal, .modal-container .modal-backdrop {
+  position: absolute;
+}
+.list{
+  overflow-y:scroll;
+  height: 500px;
+}
+.list1{
+  overflow-y:scroll;
+  height: 450px;
+}
+.logout {
+  display:block;
+  color:white;
+  text-align:center;
+  padding:10px 15px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.logout:hover:not(.active){
+  background-color: red;
+  color:white;
+}
+.logout span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+.logout span:after{
+  content:'\00bb';
+  position: absolute;
+  color:white;
+  opacity:0;
+  top:0;
+  right:-20px;
+  transition:0.5s;
+}
+.logout:hover span{
+  padding-right:25px;
+}
+.logout:hover span:after{
+  opacity:1;
+  right:0;
 }

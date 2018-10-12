@@ -1,55 +1,139 @@
 import React from "react";
-import axios from "axios";
+import PropTypes from "prop-types";
+import { getPeoplePage } from "./Server";
+import { withRouter } from "react-router-dom";
 import styles from "./App.module.css";
+import {
+  Card,
+  CardImg,
+  CardText,
+  CardBody,
+  CardTitle,
+  Button
+} from "reactstrap";
+function getSearchTermFromQueryString(queryString) {
+  const usp = new URLSearchParams(queryString);
+  return usp.get("q") || "";
+}
 class PeopleProfile extends React.Component {
+  static propTypes = {
+    history: PropTypes.object.isRequired
+  };
   state = {
-    list: []
+    search: "",
+    search: getSearchTermFromQueryString(this.props.location.search),
+    pageIndex: 0
   };
   componentDidMount() {
-    axios.get("/api/people/0/10").then(res => {
-      this.setState({ list: res.data.item.pagedItems });
+    this.loadPage();
+  }
+
+  loadPage() {
+    this.setState({ pagedItemResponse: null });
+    const { pageIndex, search } = this.state;
+    getPeoplePage(pageIndex, 10, search).then(pagedItemResponse => {
+      this.setState({ pagedItemResponse });
     });
   }
-  handleEdit = id => {
-    axios.put("/api/people/" + id);
+
+  prevPage = () => {
+    this.setState(prev => ({ pageIndex: prev.pageIndex - 1 }), this.loadPage);
+  };
+
+  nextPage = () => {
+    this.setState(prev => ({ pageIndex: prev.pageIndex + 1 }), this.loadPage);
+  };
+  handleSearchChange = e => {
+    this.setState({ search: e.target.value });
+  };
+
+  handleSearchSubmit = e => {
+    e.preventDefault();
+
+    const searchName = new URLSearchParams(this.props.location.search);
+    searchName.set("q", this.state.search);
+    const newPath = this.props.location.pathname + "?" + searchName.toString();
+    this.props.history.replace(newPath);
+    this.loadPage();
+  };
+  handlePersonClick = personId => {
+    this.props.history.push("/people/" + personId);
   };
   render() {
-    const listItems = this.state.list;
+    const { pagedItemResponse, pageIndex, search } = this.state;
+    const disabled = !pagedItemResponse;
     return (
       <div>
-        <legend>People Profile</legend>
-        {listItems.map(data => (
-          <div key={data.id}>
-            <form>
-              <fieldset>
-                <button className={this.handleEdit(data.id)}>Edit</button>
-                <div className={styles.profile}>
-                  <p>Title: {data.title}</p>
-                  <p>Bio: {data.bio}</p>
-                  <p>Summary: {data.summary}</p>
-                  <p>Headline: {data.headline}</p>
-                  <p>Slug: {data.slug}</p>
-                  <p>
-                    Skills:{" "}
-                    {data.skills.map(res => (
-                      <div key={res.id}>
-                        <div>{res.name}</div>
-                      </div>
-                    ))}
-                  </p>
+        <form className={styles.search} onSubmit={this.handleSearchSubmit}>
+          <input
+            type="text"
+            autoFocus
+            spellCheck={false}
+            value={search}
+            onChange={this.handleSearchChange}
+          />
+          <button>Search</button>
+        </form>
+        <div className={styles.middle}>
+          <Button
+            color="success"
+            className={styles.buttonnormal}
+            disabled={disabled}
+            onClick={this.prevPage}
+          >
+            Prev
+          </Button>
+          <div className={styles.box}>{pageIndex + 1}</div>
+          <Button
+            color="success"
+            className={styles.buttonnormal}
+            disabled={disabled}
+            onClick={this.nextPage}
+          >
+            Next
+          </Button>
+        </div>
+        <div className={styles.list}>
+          {pagedItemResponse ? (
+            <>
+              {pagedItemResponse.pagedItems.map(person => (
+                <div
+                  key={person.id}
+                  onClick={() => this.handlePersonClick(person.id)}
+                >
+                  <Card>
+                    <CardImg
+                      left
+                      width="100%"
+                      src={person.primaryImage.imageUrl}
+                      alt="person image"
+                    />
+                    <CardBody>
+                      <CardTitle>Title: {person.title}</CardTitle>
+                      <CardText>
+                        <div>Bio: {person.bio}</div>
+                        <div>Summary: {person.summary}</div>
+                        <div>Headline: {person.headline}</div>
+                        <div>Slug: {person.slug}</div>
+                        <div>
+                          Skills:{" "}
+                          {person.skills.map(data => (
+                            <div key={data.id}>-{data.name}</div>
+                          ))}
+                        </div>
+                      </CardText>
+                    </CardBody>
+                  </Card>
                 </div>
-                <img
-                  width="100px"
-                  heigth="200px"
-                  src={data.primaryImage.imageUrl}
-                  alt=""
-                />
-              </fieldset>
-            </form>
-          </div>
-        ))}
+              ))}
+            </>
+          ) : (
+            <div>Loading...</div>
+          )}
+        </div>
       </div>
     );
   }
 }
-export default PeopleProfile;
+
+export default withRouter(PeopleProfile);
