@@ -6,15 +6,16 @@ import HomePage from "./HomePage";
 import Logout from "./Logout";
 import People from "./People";
 import BlogPage from "./BlogsPage";
+import TechCompPage from "./TechCompPage";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { getCurrentUserId, getUser } from "./Server";
 import styles from "./App.module.css";
-import background from "./color.jpg";
-var sectionStyle = {
-  width: "100%",
-  heigth: "500px",
-  backgroundImage: "url(" + background + ")"
-};
+// import background from "./color.jpg";
+// var sectionStyle = {
+//   width: "100%",
+//   heigth: "500px",
+//   backgroundImage: "url(" + background + ")"
+// };
 class App extends Component {
   state = {
     user: null
@@ -36,49 +37,50 @@ class App extends Component {
     const { user } = this.state;
     if (user === null) return null;
     return (
-      <section style={sectionStyle}>
-        <div className={styles.bold}>
-          <div className={styles.root}>
-            <div className={styles.toxnav}>
-              <NavBar user={user} />
-              {user ? (
-                <Switch>
-                  <Route
-                    exact
-                    path="/home"
-                    render={user => <HomePage {...user} user={user} />}
-                  />
-                  <Route
-                    exact
-                    path="/logout"
-                    render={user => (
-                      <Logout {...user} clearUser={this.clearUser} />
-                    )}
-                  />
-                  <Route path="/people" component={People} />
-                  <Route path="/blog" component={BlogPage} />
-                  {/* <Redirect to="/home" /> */}
-                </Switch>
-              ) : (
-                <Switch>
-                  <Route
-                    exact
-                    path="/login"
-                    render={props => (
-                      <Login
-                        {...props}
-                        updateCurrentUser={this.updateCurrentUser}
-                      />
-                    )}
-                  />
-                  <Route exact path="/register" component={Register} />
-                  <Redirect to="/login" />
-                </Switch>
-              )}
-            </div>
+      // <section style={sectionStyle}>
+      <div className={styles.bold}>
+        <div className={styles.root}>
+          <div className={styles.toxnav}>
+            <NavBar user={user} />
+            {user ? (
+              <Switch>
+                <Route
+                  exact
+                  path="/home"
+                  render={user => <HomePage {...user} user={user} />}
+                />
+                <Route
+                  exact
+                  path="/logout"
+                  render={user => (
+                    <Logout {...user} clearUser={this.clearUser} />
+                  )}
+                />
+                <Route path="/people" component={People} />
+                <Route path="/blog" component={BlogPage} />
+                <Route path="/techcomp" component={TechCompPage} />
+                {/* <Redirect to="/home" /> */}
+              </Switch>
+            ) : (
+              <Switch>
+                <Route
+                  exact
+                  path="/login"
+                  render={props => (
+                    <Login
+                      {...props}
+                      updateCurrentUser={this.updateCurrentUser}
+                    />
+                  )}
+                />
+                <Route exact path="/register" component={Register} />
+                <Redirect to="/login" />
+              </Switch>
+            )}
           </div>
         </div>
-      </section>
+      </div>
+      // </section>
     );
   }
 }
